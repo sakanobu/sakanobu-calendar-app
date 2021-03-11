@@ -11,7 +11,7 @@ import JumpButton from 'components/Navigation/JumpButton';
 import FilterButton from 'components/Navigation/FilterButton';
 import AddTagButton from 'components/Navigation/TagListButton';
 import AddScheduleButton from 'components/Navigation/AddScheduleButton';
-import { SelectedDateContext } from 'App';
+import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 
 const useStyles = makeStyles(() =>
   createStyles({

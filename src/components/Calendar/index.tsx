@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { addMonths, format } from 'date-fns';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { SelectedDateContext } from 'App';
+import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 import {
   CalendarArrayType,
   createCalendarArray,

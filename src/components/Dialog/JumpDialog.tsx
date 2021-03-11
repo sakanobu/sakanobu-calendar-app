@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { DatePicker } from '@material-ui/pickers';
 import { Props as JumpButtonProps } from 'components/Navigation/JumpButton';
-import { SelectedDateContext } from 'App';
+import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 
 type ContainerProps = Omit<JumpButtonProps, 'handleClickOpen'>;
 

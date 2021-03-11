@@ -12,14 +12,7 @@ import EditTagDialog from 'components/Dialog/EditTagDialog';
 import ScheduleDetailDialog from 'components/Dialog/ScheduleDetailDialog';
 import ScheduleListDialog from 'components/Dialog/ScheduleListDialog';
 import UnsaveConfirmDialog from 'components/Dialog/UnsaveConfirmDialog';
-
-type SelectedDateContextType = {
-  selectedDate: Date;
-  handleChangeSelectedDate: (date: MaterialUiPickersDate) => void;
-};
-export const SelectedDateContext = React.createContext(
-  {} as SelectedDateContextType
-);
+import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 
 const App: FC = () => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
