@@ -1,6 +1,19 @@
 import React, { FC } from 'react';
+import { addMonths, format } from 'date-fns';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { SelectedDateContext } from 'App';
+import {
+  CalendarArrayType,
+  createCalendarArray,
+} from 'services/calendar_array';
+
+type Props = {
+  displayDate: (
+    selectedDay: CalendarArrayType[number],
+    selectedDate: Date
+  ) => string;
+};
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -26,6 +39,13 @@ const useStyles = makeStyles(() =>
       borderTop: 'solid 1px #000000',
       borderRight: 'solid 1px #000000',
     },
+    scheduleItemNotSelectedMonth: {
+      backgroundColor: '#C0C0C0',
+      width: 'calc(100% / 7 - 2px)',
+      height: 125,
+      borderTop: 'solid 1px #000000',
+      borderRight: 'solid 1px #000000',
+    },
     scheduleItemHeader: {
       height: 25,
       borderBottom: 'dashed 1px #000000',
@@ -36,20 +56,29 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Component: FC = () => {
+const Component: FC<Props> = (props) => {
   const classes = useStyles();
-  const range = (start: number, stop: number, step: number) =>
-    Array.from(
-      { length: (stop - start) / step + 1 },
-      (_, i) => start + i * step
-    );
+
+  const { selectedDate } = React.useContext(SelectedDateContext);
+
+  const calendarArray = createCalendarArray(selectedDate);
 
   return (
     <div className={classes.calendarContainer}>
       <div className={classes.dayOfTheWeekContainer}>
         {['日', '月', '火', '水', '木', '金', '土'].map((day, i) => {
           return (
-            <div className={classes.dayOfTheWeekItem} key={i}>
+            <div
+              className={classes.dayOfTheWeekItem}
+              style={
+                day === '日'
+                  ? { backgroundColor: '#FFAD90' }
+                  : day === '土'
+                  ? { backgroundColor: '#BAD3FF' }
+                  : { backgroundColor: '#FFFFEE' }
+              }
+              key={i}
+            >
               <Typography align="center">{day}</Typography>
             </div>
           );
@@ -57,33 +86,22 @@ const Component: FC = () => {
       </div>
 
       <div className={classes.scheduleContainer}>
-        {range(1, 35, 1).map((i) => {
+        {calendarArray.map((selectedDay) => {
           return (
-            <div className={classes.scheduleItem} key={i}>
+            <div
+              className={
+                selectedDay.selectedMonth === true
+                  ? classes.scheduleItem
+                  : classes.scheduleItemNotSelectedMonth
+              }
+              key={selectedDay.indexForKey}
+            >
               <div className={classes.scheduleItemHeader}>
                 <Typography align="center">
-                  {(() => {
-                    if (i === 1) {
-                      return '2月1日';
-                    } else if (i === 32) {
-                      return '3月1日';
-                    } else if (i >= 33) {
-                      return i - 31;
-                    } else {
-                      return i;
-                    }
-                  })()}
+                  {props.displayDate(selectedDay, selectedDate)}
                 </Typography>
               </div>
-              <div className={classes.scheduleItemContent}>
-                {(() => {
-                  if (i === 2) {
-                    return <Typography>12:00 節分</Typography>;
-                  } else {
-                    return '';
-                  }
-                })()}
-              </div>
+              <div className={classes.scheduleItemContent} />
             </div>
           );
         })}
@@ -93,7 +111,20 @@ const Component: FC = () => {
 };
 
 const Container: FC = () => {
-  return <Component />;
+  const displayDate = (
+    selectedDay: CalendarArrayType[number],
+    selectedDate: Date
+  ): string => {
+    if (selectedDay.day !== '1') {
+      return selectedDay.day;
+    } else if (selectedDay.selectedMonth === true) {
+      return `${format(selectedDate, 'M')}月1日`;
+    } else {
+      return `${format(addMonths(selectedDate, 1), 'M')}月1日`;
+    }
+  };
+
+  return <Component displayDate={displayDate} />;
 };
 
 export default Container;
