@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  getSchedules,
+  getSchedulesWithUserTagColor,
   ScheduleWithUserTagColor,
 } from 'services/request_firebase';
 
@@ -16,7 +16,7 @@ export const useSchedule = (selectedDate: Date): UseTodo => {
 
   React.useEffect(() => {
     (async () => {
-      const newSchedules = await getSchedules(selectedDate);
+      const newSchedules = await getSchedulesWithUserTagColor(selectedDate);
 
       setSchedules(newSchedules);
     })();

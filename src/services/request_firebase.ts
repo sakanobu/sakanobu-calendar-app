@@ -44,7 +44,7 @@ export type ScheduleWithUserTagColor = {
   selectedTag: TagWithColor;
 };
 
-export const getSchedules = async (
+export const getSchedulesWithUserTagColor = async (
   selectedDate: Date
 ): Promise<ScheduleWithUserTagColor[]> => {
   const schedulesQuerySnapshot = await db
