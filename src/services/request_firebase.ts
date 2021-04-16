@@ -58,37 +58,22 @@ export const getSchedules = async (
     await schedulesQuerySnapshot.docs.map(async (doc) => {
       const schedule = doc.data() as Schedule;
 
-      const usersDocumentSnapshot = await db
-        .collection('users')
-        .doc(schedule.userRef.id)
-        .get();
+      const user = (await schedule.userRef.get()).data() as User;
 
-      const userData = usersDocumentSnapshot.data() as User;
+      const tag = (await schedule.tagRef.get()).data() as Tag;
 
-      const tagsDocumentSnapshot = await db
-        .collection('tags')
-        .doc(schedule.tagRef.id)
-        .get();
-
-      const tagData = tagsDocumentSnapshot.data() as Tag;
-
-      const colorsDocumentSnapshot = await db
-        .collection('colors')
-        .doc(tagData.colorRef.id)
-        .get();
-
-      const colorData = colorsDocumentSnapshot.data() as Color;
+      const color = (await tag.colorRef.get()).data() as Color;
 
       return {
         title: schedule.title,
         startTime: schedule.startTime,
         endTime: schedule.endTime,
-        createdByUser: { ...userData },
+        createdByUser: { ...user },
         selectedTag: {
-          name: tagData.name,
-          checked: tagData.checked,
+          name: tag.name,
+          checked: tag.checked,
           selectedColor: {
-            ...colorData,
+            ...color,
           },
         },
       };
