@@ -1,23 +1,8 @@
 import React from 'react';
-import firebase from 'firebase/app';
-import { getSchedules } from 'services/request_firebase';
-
-export type ScheduleWithUserTagColor = {
-  title: string;
-  startTime: firebase.firestore.Timestamp;
-  endTime: firebase.firestore.Timestamp;
-  createdByUser: {
-    name: string;
-  };
-  selectedTag: {
-    name: string;
-    checked: boolean;
-    selectedColor: {
-      name: string;
-      theme: string;
-    };
-  };
-};
+import {
+  getSchedules,
+  ScheduleWithUserTagColor,
+} from 'services/request_firebase';
 
 type UseTodo = {
   schedules: ScheduleWithUserTagColor[];

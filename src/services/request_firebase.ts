@@ -1,7 +1,6 @@
 import firebase from 'firebase/app';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { db } from '../firebase';
-import type { ScheduleWithUserTagColor } from 'hooks/useSchedules';
 
 type Schedule = {
   title: string;
@@ -24,6 +23,25 @@ type Tag = {
 type Color = {
   name: string;
   theme: string;
+};
+
+type TagWithColor = {
+  name: string;
+  checked: boolean;
+  selectedColor: {
+    name: string;
+    theme: string;
+  };
+};
+
+export type ScheduleWithUserTagColor = {
+  title: string;
+  startTime: firebase.firestore.Timestamp;
+  endTime: firebase.firestore.Timestamp;
+  createdByUser: {
+    name: string;
+  };
+  selectedTag: TagWithColor;
 };
 
 export const getSchedules = async (
