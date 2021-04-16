@@ -27,7 +27,6 @@ type Color = {
 
 type TagWithColor = {
   name: string;
-  checked: boolean;
   selectedColor: {
     name: string;
     theme: string;
@@ -71,7 +70,6 @@ export const getSchedulesWithUserTagColor = async (
         createdByUser: { ...user },
         selectedTag: {
           name: tag.name,
-          checked: tag.checked,
           selectedColor: {
             ...color,
           },
@@ -92,7 +90,6 @@ export const getTagsWithColor = async (): Promise<TagWithColor[]> => {
 
       return {
         name: tag.name,
-        checked: tag.checked,
         selectedColor: {
           name: color.name,
           theme: color.theme,
