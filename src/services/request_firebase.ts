@@ -29,8 +29,6 @@ type Color = {
 export const getSchedules = async (
   selectedDate: Date
 ): Promise<ScheduleWithUserTagColor[]> => {
-  const targetList: ScheduleWithUserTagColor[] = [];
-
   const schedulesQuerySnapshot = await db
     .collection('schedules')
     .where('startTime', '>=', startOfMonth(selectedDate))
@@ -38,7 +36,7 @@ export const getSchedules = async (
     .orderBy('startTime')
     .get();
 
-  await Promise.all(
+  return await Promise.all(
     await schedulesQuerySnapshot.docs.map(async (doc) => {
       const schedule = doc.data() as Schedule;
 
@@ -63,7 +61,7 @@ export const getSchedules = async (
 
       const colorData = colorsDocumentSnapshot.data() as Color;
 
-      targetList.push({
+      return {
         title: schedule.title,
         startTime: schedule.startTime,
         endTime: schedule.endTime,
@@ -75,9 +73,7 @@ export const getSchedules = async (
             ...colorData,
           },
         },
-      });
+      };
     })
   );
-
-  return targetList;
 };
