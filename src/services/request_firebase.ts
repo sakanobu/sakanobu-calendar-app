@@ -1,6 +1,6 @@
-import firebase from 'firebase';
-
-import { db } from '../../firebase';
+import firebase from 'firebase/app';
+import { startOfMonth, endOfMonth } from 'date-fns';
+import { db } from '../firebase';
 import type { ScheduleWithUserTagColor } from 'hooks/useSchedules';
 
 type Schedule = {
@@ -26,13 +26,20 @@ type Color = {
   theme: string;
 };
 
-export const getSchedules = async (): Promise<ScheduleWithUserTagColor[]> => {
+export const getSchedules = async (
+  selectedDate: Date
+): Promise<ScheduleWithUserTagColor[]> => {
   const targetList: ScheduleWithUserTagColor[] = [];
 
-  const schedulesQuerySnapshot = await db.collection('schedules').get();
+  const schedulesQuerySnapshot = await db
+    .collection('schedules')
+    .where('startTime', '>=', startOfMonth(selectedDate))
+    .where('startTime', '<=', endOfMonth(selectedDate))
+    .orderBy('startTime')
+    .get();
 
   await Promise.all(
-    schedulesQuerySnapshot.docs.map(async (doc) => {
+    await schedulesQuerySnapshot.docs.map(async (doc) => {
       const schedule = doc.data() as Schedule;
 
       const usersDocumentSnapshot = await db
