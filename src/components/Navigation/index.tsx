@@ -28,60 +28,9 @@ const useStyles = makeStyles(() =>
   })
 );
 
-type Props = {
-  selectedDate: Date;
-  handleClickTodayButton: () => void;
-  handleClickLeftIcon: () => void;
-  handleClickRightIcon: () => void;
-};
-
-const Component: FC<Props> = (props) => {
+const Navigation: FC = () => {
   const classes = useStyles();
 
-  return (
-    <AppBar position="static">
-      <ToolBar className={classes.toolBar}>
-        <Button
-          variant="contained"
-          className={classes.button}
-          onClick={() => {
-            props.handleClickTodayButton();
-          }}
-        >
-          今日
-        </Button>
-        <Button
-          variant="contained"
-          className={classes.button}
-          startIcon={<ChevronLeftIcon />}
-          onClick={() => {
-            props.handleClickLeftIcon();
-          }}
-        />
-        <Button
-          variant="contained"
-          className={classes.button}
-          startIcon={<ChevronRightIcon />}
-          onClick={() => {
-            props.handleClickRightIcon();
-          }}
-        />
-        <Typography className={classes.dateToday} align="center">
-          {`${format(props.selectedDate, 'yyyy')}年 ${format(
-            props.selectedDate,
-            'MM'
-          )}月`}
-        </Typography>
-        <JumpButton />
-        <FilterButton />
-        <AddTagButton />
-        <AddScheduleButton />
-      </ToolBar>
-    </AppBar>
-  );
-};
-
-const Container: FC = () => {
   const { selectedDate, handleChangeSelectedDate } = React.useContext(
     SelectedDateContext
   );
@@ -97,13 +46,43 @@ const Container: FC = () => {
   };
 
   return (
-    <Component
-      selectedDate={selectedDate}
-      handleClickTodayButton={handleClickTodayButton}
-      handleClickLeftIcon={handleClickLeftIcon}
-      handleClickRightIcon={handleClickRightIcon}
-    />
+    <AppBar position="static">
+      <ToolBar className={classes.toolBar}>
+        <Button
+          variant="contained"
+          className={classes.button}
+          onClick={() => {
+            handleClickTodayButton();
+          }}
+        >
+          今日
+        </Button>
+        <Button
+          variant="contained"
+          className={classes.button}
+          startIcon={<ChevronLeftIcon />}
+          onClick={() => {
+            handleClickLeftIcon();
+          }}
+        />
+        <Button
+          variant="contained"
+          className={classes.button}
+          startIcon={<ChevronRightIcon />}
+          onClick={() => {
+            handleClickRightIcon();
+          }}
+        />
+        <Typography className={classes.dateToday} align="center">
+          {`${format(selectedDate, 'yyyy')}年 ${format(selectedDate, 'MM')}月`}
+        </Typography>
+        <JumpButton />
+        <FilterButton />
+        <AddTagButton />
+        <AddScheduleButton />
+      </ToolBar>
+    </AppBar>
   );
 };
 
-export default Container;
+export default Navigation;

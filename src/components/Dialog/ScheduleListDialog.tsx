@@ -11,13 +11,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { schedules } from 'data';
 
-type Props = {
-  open: boolean;
-  handleClickOpen: () => void;
-  handleClose: () => void;
-  descriptionElementRef: React.RefObject<HTMLElement>;
-};
-
 const useStyles = makeStyles(() =>
   createStyles({
     dialogContent: {
@@ -27,48 +20,9 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Component: FC<Props> = (props) => {
+const ScheduleListDialog: FC = () => {
   const classes = useStyles();
 
-  return (
-    <>
-      <Button variant="contained" onClick={props.handleClickOpen}>
-        {'◯'}月{'△'}日の全予定ダイアログのテスト
-      </Button>
-      <Dialog
-        open={props.open}
-        onClose={props.handleClose}
-        scroll="paper"
-        fullWidth
-        maxWidth="sm"
-      >
-        <DialogTitle>
-          {'◯'}月{'△'}日の全予定
-        </DialogTitle>
-        <DialogContent className={classes.dialogContent} dividers>
-          <DialogContentText ref={props.descriptionElementRef} tabIndex={-1}>
-            <List>
-              {schedules.map((schedule) => {
-                return (
-                  <>
-                    <ListItem divider button>
-                      <ListItemText>
-                        {format(schedule.startTime, 'kk:mm')}
-                      </ListItemText>
-                      <ListItemText>{schedule.scheduleName}</ListItemText>
-                    </ListItem>
-                  </>
-                );
-              })}
-            </List>
-          </DialogContentText>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
-};
-
-const Container: FC = () => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -91,13 +45,41 @@ const Container: FC = () => {
   }, [open]);
 
   return (
-    <Component
-      open={open}
-      handleClickOpen={handleClickOpen}
-      handleClose={handleClose}
-      descriptionElementRef={descriptionElementRef}
-    />
+    <>
+      <Button variant="contained" onClick={handleClickOpen}>
+        {'◯'}月{'△'}日の全予定ダイアログのテスト
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll="paper"
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>
+          {'◯'}月{'△'}日の全予定
+        </DialogTitle>
+        <DialogContent className={classes.dialogContent} dividers>
+          <DialogContentText ref={descriptionElementRef} tabIndex={-1}>
+            <List>
+              {schedules.map((schedule) => {
+                return (
+                  <>
+                    <ListItem divider button>
+                      <ListItemText>
+                        {format(schedule.startTime, 'kk:mm')}
+                      </ListItemText>
+                      <ListItemText>{schedule.scheduleName}</ListItemText>
+                    </ListItem>
+                  </>
+                );
+              })}
+            </List>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
-export default Container;
+export default ScheduleListDialog;

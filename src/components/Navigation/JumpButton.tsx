@@ -2,24 +2,7 @@ import React, { FC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import JumpDialog from 'components/Dialog/JumpDialog';
 
-export type Props = {
-  open: boolean;
-  handleClickOpen: () => void;
-  handleClose: () => void;
-};
-
-const Component: FC<Props> = (props) => {
-  return (
-    <>
-      <Button variant="contained" onClick={props.handleClickOpen}>
-        ジャンプ
-      </Button>
-      <JumpDialog open={props.open} handleClose={props.handleClose} />
-    </>
-  );
-};
-
-const Container: FC = () => {
+const JumpButton: FC = () => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -31,12 +14,13 @@ const Container: FC = () => {
   };
 
   return (
-    <Component
-      open={open}
-      handleClickOpen={handleClickOpen}
-      handleClose={handleClose}
-    />
+    <>
+      <Button variant="contained" onClick={handleClickOpen}>
+        ジャンプ
+      </Button>
+      <JumpDialog open={open} handleClose={handleClose} />
+    </>
   );
 };
 
-export default Container;
+export default JumpButton;

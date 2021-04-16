@@ -10,13 +10,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Button from '@material-ui/core/Button';
-import { Props as AddScheduleButtonProps } from 'components/Navigation/AddScheduleButton';
 import { tags } from 'data';
 
-type ContainerProps = Omit<AddScheduleButtonProps, 'handleClickOpen'>;
-
 type Props = {
-  props: ContainerProps;
+  open: boolean;
+  handleClose: () => void;
 };
 
 const useStyles = makeStyles(() =>
@@ -28,67 +26,63 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Component: FC<Props> = ({ props }) => {
+const AddScheduleDialog: FC<Props> = (props) => {
   const classes = useStyles();
 
   return (
-    <>
-      <Dialog open={props.open} onClose={props.handleClose}>
-        <DialogTitle>予定を追加</DialogTitle>
-        <DialogContent className={classes.dialogContent}>
-          <TextField label="予定" variant="outlined" size="small" />
-          <DatePicker
-            label="日付"
-            format="yyyy/MM/dd"
-            openTo="year"
-            views={['year', 'month', 'date']}
-            value={new Date()}
+    <Dialog open={props.open} onClose={props.handleClose}>
+      <DialogTitle>予定を追加</DialogTitle>
+      <DialogContent className={classes.dialogContent}>
+        <TextField label="予定" variant="outlined" size="small" />
+        <DatePicker
+          label="日付"
+          format="yyyy/MM/dd"
+          openTo="year"
+          views={['year', 'month', 'date']}
+          value={new Date()}
+          onChange={() => console.log(1)}
+        />
+        <TimePicker
+          label="開始時間"
+          value={new Date()}
+          onChange={() => console.log(1)}
+        />
+        <TimePicker
+          label="終了時間"
+          value={new Date()}
+          onChange={() => console.log(1)}
+        />
+        <FormControl>
+          <InputLabel shrink htmlFor="tag">
+            タグ
+          </InputLabel>
+          <NativeSelect
+            value={'aaa'}
             onChange={() => console.log(1)}
-          />
-          <TimePicker
-            label="開始時間"
-            value={new Date()}
-            onChange={() => console.log(1)}
-          />
-          <TimePicker
-            label="終了時間"
-            value={new Date()}
-            onChange={() => console.log(1)}
-          />
-          <FormControl>
-            <InputLabel shrink htmlFor="tag">
-              タグ
-            </InputLabel>
-            <NativeSelect
-              value={'aaa'}
-              onChange={() => console.log(1)}
-              inputProps={{ name: 'tag', id: 'tag' }}
-            >
-              {tags.map((tag) => {
-                return (
-                  <>
-                    <option value={tag.tagName} key={tag.tagID}>
-                      {tag.tagName}
-                    </option>
-                  </>
-                );
-              })}
-            </NativeSelect>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button variant={'contained'}>キャンセル</Button>
-          <Button variant={'contained'} color="primary">
-            保存
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+            inputProps={{ name: 'tag', id: 'tag' }}
+          >
+            {tags.map((tag) => {
+              return (
+                <>
+                  <option value={tag.tagName} key={tag.tagID}>
+                    {tag.tagName}
+                  </option>
+                </>
+              );
+            })}
+          </NativeSelect>
+        </FormControl>
+      </DialogContent>
+      <DialogActions>
+        <Button variant={'contained'} onClick={props.handleClose}>
+          キャンセル
+        </Button>
+        <Button variant={'contained'} color="primary">
+          保存
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
-const Container: FC<ContainerProps> = (props) => {
-  return <Component props={props} />;
-};
-
-export default Container;
+export default AddScheduleDialog;

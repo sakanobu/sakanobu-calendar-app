@@ -11,12 +11,6 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import TextField from '@material-ui/core/TextField';
 import { colors } from 'data';
 
-type Props = {
-  open: boolean;
-  handleClickOpen: () => void;
-  handleClose: () => void;
-};
-
 const useStyles = makeStyles(() =>
   createStyles({
     dialogContent: {
@@ -26,15 +20,25 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Component: FC<Props> = (props) => {
+const EditTagDialog: FC = () => {
   const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
-      <Button variant="contained" onClick={props.handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen}>
         タグ編集ダイアログのテスト
       </Button>
-      <Dialog open={props.open} onClose={props.handleClose}>
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>タグの編集</DialogTitle>
         <DialogContent className={classes.dialogContent}>
           <TextField label="タグ名" variant="outlined" />
@@ -70,24 +74,4 @@ const Component: FC<Props> = (props) => {
   );
 };
 
-const Container: FC = () => {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <Component
-      open={open}
-      handleClickOpen={handleClickOpen}
-      handleClose={handleClose}
-    />
-  );
-};
-
-export default Container;
+export default EditTagDialog;

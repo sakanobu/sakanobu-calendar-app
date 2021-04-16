@@ -6,19 +6,23 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 
-type Props = {
-  open: boolean;
-  handleClickOpen: () => void;
-  handleClose: () => void;
-};
+const DeleteConfirmDialog: FC = () => {
+  const [open, setOpen] = useState(false);
 
-const Component: FC<Props> = (props) => {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
-      <Button variant="contained" onClick={props.handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen}>
         削除確認ダイアログのテスト
       </Button>
-      <Dialog open={props.open} onClose={props.handleClose}>
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
           <ReportProblemIcon />
           削除確認画面
@@ -35,24 +39,4 @@ const Component: FC<Props> = (props) => {
   );
 };
 
-const Container: FC = () => {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <Component
-      open={open}
-      handleClickOpen={handleClickOpen}
-      handleClose={handleClose}
-    />
-  );
-};
-
-export default Container;
+export default DeleteConfirmDialog;
