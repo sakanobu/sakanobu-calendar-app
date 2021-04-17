@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { db } from '../firebase';
+import type { TagWithColor } from 'services/request_tags';
 
 type Schedule = {
   title: string;
@@ -25,14 +26,6 @@ type Color = {
   theme: string;
 };
 
-type TagWithColor = {
-  name: string;
-  selectedColor: {
-    name: string;
-    theme: string;
-  };
-};
-
 export type ScheduleWithUserTagColor = {
   title: string;
   startTime: firebase.firestore.Timestamp;
@@ -43,7 +36,7 @@ export type ScheduleWithUserTagColor = {
   selectedTag: TagWithColor;
 };
 
-export const getSchedulesWithUserTagColor = async (
+export const getAll = async (
   selectedDate: Date
 ): Promise<ScheduleWithUserTagColor[]> => {
   const schedulesQuerySnapshot = await db
@@ -73,26 +66,6 @@ export const getSchedulesWithUserTagColor = async (
           selectedColor: {
             ...color,
           },
-        },
-      };
-    })
-  );
-};
-
-export const getTagsWithColor = async (): Promise<TagWithColor[]> => {
-  const tagsQuerySnapshot = await db.collection('tags').get();
-
-  return await Promise.all(
-    tagsQuerySnapshot.docs.map(async (doc) => {
-      const tag = doc.data() as Tag;
-
-      const color = (await tag.colorRef.get()).data() as Color;
-
-      return {
-        name: tag.name,
-        selectedColor: {
-          name: color.name,
-          theme: color.theme,
         },
       };
     })
