@@ -79,10 +79,7 @@ const ScheduleDetailDialog: FC = () => {
             </ListItem>
             <ListItem divider>
               <ListItemText>
-                {`時間: ${format(schedule!.date, 'HH:mm')} ~ ${format(
-                  schedule!.date,
-                  'HH:mm'
-                )}`}
+                {`時間: ${format(schedule!.date, 'HH:mm')} ~ `}
               </ListItemText>
             </ListItem>
             <ListItem divider>

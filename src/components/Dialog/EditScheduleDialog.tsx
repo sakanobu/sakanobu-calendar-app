@@ -56,11 +56,6 @@ const EditScheduleDialog: FC = () => {
             value={new Date()}
             onChange={() => console.log(1)}
           />
-          <TimePicker
-            label="終了時間"
-            value={new Date()}
-            onChange={() => console.log(1)}
-          />
           <FormControl>
             <InputLabel shrink htmlFor="tag">
               タグ
