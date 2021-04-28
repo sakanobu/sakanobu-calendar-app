@@ -1,8 +1,15 @@
 import React, { FC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import AddScheduleDialog from 'components/Dialog/AddScheduleDialog';
+import type { UseScheduleType } from 'hooks/useSchedules';
+import type { TagBox } from 'hooks/useTags';
 
-const AddScheduleButton: FC = () => {
+type Props = {
+  addSchedule: UseScheduleType['addSchedule'];
+  tagBoxes: TagBox[];
+};
+
+const AddScheduleButton: FC<Props> = (props) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -18,7 +25,12 @@ const AddScheduleButton: FC = () => {
       <Button variant="contained" onClick={handleClickOpen}>
         +予定
       </Button>
-      <AddScheduleDialog open={open} handleClose={handleClose} />
+      <AddScheduleDialog
+        open={open}
+        handleClose={handleClose}
+        addSchedule={props.addSchedule}
+        tagBoxes={props.tagBoxes}
+      />
     </>
   );
 };

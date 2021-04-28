@@ -35,6 +35,7 @@ const ScheduleListDialog: FC = () => {
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
 
+  // TODO useEffectってここにいていいのか?
   React.useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;

@@ -13,9 +13,13 @@ import ScheduleDetailDialog from 'components/Dialog/ScheduleDetailDialog';
 import ScheduleListDialog from 'components/Dialog/ScheduleListDialog';
 import UnsaveConfirmDialog from 'components/Dialog/UnsaveConfirmDialog';
 import { SelectedDateContext } from 'hooks/useSelectedDateContext';
+import { useSchedule } from 'hooks/useSchedules';
+import { useTags } from 'hooks/useTags';
 
 const App: FC = () => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const { schedules, addSchedule } = useSchedule(selectedDate);
+  const { tagBoxes } = useTags();
 
   const handleChangeSelectedDate = (date: MaterialUiPickersDate): void => {
     if (date === null) {
@@ -30,8 +34,8 @@ const App: FC = () => {
         <SelectedDateContext.Provider
           value={{ selectedDate, handleChangeSelectedDate }}
         >
-          <Navigation />
-          <Calendar />
+          <Navigation addSchedule={addSchedule} tagBoxes={tagBoxes} />
+          <Calendar schedules={schedules} />
         </SelectedDateContext.Provider>
 
         <AddTagDialog />

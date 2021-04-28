@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { FC } from 'react';
+import firebase from 'firebase/app';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -10,11 +12,14 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Button from '@material-ui/core/Button';
-import { tags } from 'data';
+import type { UseScheduleType } from 'hooks/useSchedules';
+import type { TagBox } from 'hooks/useTags';
 
 type Props = {
   open: boolean;
   handleClose: () => void;
+  addSchedule: UseScheduleType['addSchedule'];
+  tagBoxes: TagBox[];
 };
 
 const useStyles = makeStyles(() =>
@@ -29,43 +34,119 @@ const useStyles = makeStyles(() =>
 const AddScheduleDialog: FC<Props> = (props) => {
   const classes = useStyles();
 
+  const [scheduleTitle, setScheduleTitle] = React.useState('');
+
+  const [selectedTagName, setSelectedTagName] = React.useState<string | null>(
+    null
+  );
+
+  const [
+    selectedTagRef,
+    setSelectedTagRef,
+  ] = React.useState<firebase.firestore.DocumentReference | null>(null);
+
+  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
+    new Date()
+  );
+  const [selectedStartTime, setSelectedStartTime] = React.useState<Date | null>(
+    new Date()
+  );
+
+  const [objectForDate, setObjectForDate] = React.useState({
+    year: Number(new Date().getFullYear()),
+    month: Number(new Date().getMonth()),
+    date: Number(new Date().getDate()),
+    hours: Number(new Date().getHours()),
+    minutes: Number(new Date().getMinutes()),
+  });
+
+  React.useEffect(() => {
+    setObjectForDate((state) => {
+      return {
+        ...state,
+        year: Number(selectedDate?.getFullYear()),
+        month: Number(selectedDate?.getMonth()),
+        date: Number(selectedDate?.getDate()),
+      };
+    });
+  }, [selectedDate]);
+
+  React.useEffect(() => {
+    setObjectForDate((state) => {
+      return {
+        ...state,
+        hours: Number(selectedStartTime?.getHours()),
+        minutes: Number(selectedStartTime?.getMinutes()),
+      };
+    });
+  }, [selectedStartTime]);
+
+  // 予定/日付/開始時間/終了時間でnull上書きしていないのはご操作でダイアログを閉じた時に
+  // 予定の部分は残っていたほうがいいかなという判断
+  const closeDialog = () => {
+    props.handleClose();
+    setSelectedTagName('必ず選択してください');
+    setSelectedTagRef(null);
+  };
+
+  console.log(selectedStartTime, objectForDate);
+
   return (
-    <Dialog open={props.open} onClose={props.handleClose}>
+    <Dialog open={props.open} onClose={closeDialog}>
       <DialogTitle>予定を追加</DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <TextField label="予定" variant="outlined" size="small" />
+        <TextField
+          label="予定"
+          variant="outlined"
+          size="small"
+          value={scheduleTitle}
+          onChange={(event) => {
+            setScheduleTitle(event.target.value);
+          }}
+        />
         <DatePicker
           label="日付"
           format="yyyy/MM/dd"
           openTo="year"
           views={['year', 'month', 'date']}
-          value={new Date()}
-          onChange={() => console.log(1)}
+          value={selectedDate}
+          onChange={(date) => {
+            setSelectedDate(date);
+          }}
         />
         <TimePicker
           label="開始時間"
-          value={new Date()}
-          onChange={() => console.log(1)}
-        />
-        <TimePicker
-          label="終了時間"
-          value={new Date()}
-          onChange={() => console.log(1)}
+          value={selectedStartTime}
+          onChange={(date) => {
+            setSelectedStartTime(date);
+          }}
         />
         <FormControl>
           <InputLabel shrink htmlFor="tag">
             タグ
           </InputLabel>
           <NativeSelect
-            value={'aaa'}
-            onChange={() => console.log(1)}
-            inputProps={{ name: 'tag', id: 'tag' }}
+            inputProps={{ id: 'tag' }}
+            value={selectedTagName}
+            onChange={(event) => {
+              const selectedTagBox = props.tagBoxes.find((tagBox) => {
+                return tagBox.tag.name === event.target.value;
+              });
+
+              if (selectedTagBox === undefined) {
+                throw new Error();
+              }
+
+              setSelectedTagName(selectedTagBox.tag.name);
+              setSelectedTagRef(selectedTagBox.tag.tagRef);
+            }}
           >
-            {tags.map((tag) => {
+            <option value={''}>必ず選択してください</option>
+            {props.tagBoxes.map((tagBox) => {
               return (
                 <>
-                  <option value={tag.tagName} key={tag.tagID}>
-                    {tag.tagName}
+                  <option value={tagBox.tag.name} key={tagBox.tag.name}>
+                    {tagBox.tag.name}
                   </option>
                 </>
               );
@@ -74,10 +155,45 @@ const AddScheduleDialog: FC<Props> = (props) => {
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button variant={'contained'} onClick={props.handleClose}>
+        <Button variant={'contained'} onClick={closeDialog}>
           キャンセル
         </Button>
-        <Button variant={'contained'} color="primary">
+        <Button
+          variant={'contained'}
+          color="primary"
+          disabled={!scheduleTitle || !selectedTagRef}
+          onClick={() => {
+            if (selectedTagRef === null) {
+              throw new Error();
+            }
+
+            props.addSchedule(
+              scheduleTitle,
+              selectedTagRef,
+              new Date(
+                objectForDate['year'],
+                objectForDate['month'],
+                objectForDate['date'],
+                objectForDate['hours'],
+                objectForDate['minutes']
+              )
+            );
+            console.log(
+              objectForDate['year'],
+              objectForDate['month'],
+              objectForDate['date'],
+              objectForDate['hours'],
+              objectForDate['minutes']
+            );
+
+            props.handleClose();
+            setScheduleTitle('');
+            setSelectedTagName('必ず選択してください');
+            setSelectedTagRef(null);
+            // setSelectedDate(new Date());
+            // setSelectedStartTime(new Date());
+          }}
+        >
           保存
         </Button>
       </DialogActions>

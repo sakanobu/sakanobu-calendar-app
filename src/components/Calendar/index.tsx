@@ -3,11 +3,15 @@ import { addMonths, format } from 'date-fns';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { SelectedDateContext } from 'hooks/useSelectedDateContext';
+import type { ScheduleWithUserTagColor } from 'services/request_schedules';
 import {
   CalendarArrayType,
   createCalendarArray,
 } from 'services/calendar_array';
-import { useSchedule } from 'hooks/useSchedules';
+
+type Props = {
+  schedules: ScheduleWithUserTagColor[];
+};
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -50,14 +54,14 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Calendar: FC = () => {
+const Calendar: FC<Props> = (props) => {
   const classes = useStyles();
 
   const { selectedDate } = React.useContext(SelectedDateContext);
 
-  const { schedules } = useSchedule(selectedDate);
-
   const calendarArray = createCalendarArray(selectedDate);
+
+  let firstDateCounter = 0;
 
   const displayDate = (
     selectedDay: CalendarArrayType[number],
@@ -74,18 +78,6 @@ const Calendar: FC = () => {
 
   return (
     <div className={classes.calendarContainer}>
-      <div>
-        {schedules.map((a) => {
-          console.log(a);
-
-          return (
-            <>
-              <div key={a.title}>{a.title}</div>
-              <div>{a.startTime.toDate().toString()}</div>
-            </>
-          );
-        })}
-      </div>
       <div className={classes.dayOfTheWeekContainer}>
         {['日', '月', '火', '水', '木', '金', '土'].map((day, i) => {
           return (
@@ -108,6 +100,10 @@ const Calendar: FC = () => {
 
       <div className={classes.scheduleContainer}>
         {calendarArray.map((selectedDay) => {
+          if (selectedDay.day === '1') {
+            firstDateCounter += 1;
+          }
+
           return (
             <div
               className={
@@ -122,7 +118,25 @@ const Calendar: FC = () => {
                   {displayDate(selectedDay, selectedDate)}
                 </Typography>
               </div>
-              <div className={classes.scheduleItemContent} />
+              <div className={classes.scheduleItemContent}>
+                {firstDateCounter === 1
+                  ? props.schedules
+                      .filter((schedule) => {
+                        return (
+                          schedule.startTime.toDate().getDate() ===
+                          Number(selectedDay.day)
+                        );
+                      })
+                      .map((schedule) => {
+                        return (
+                          <div key={schedule.title}>
+                            {format(schedule.startTime.toDate(), 'hh:mm')}{' '}
+                            {schedule.title}
+                          </div>
+                        );
+                      })
+                  : null}
+              </div>
             </div>
           );
         })}

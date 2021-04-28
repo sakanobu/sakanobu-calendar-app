@@ -12,6 +12,13 @@ import FilterButton from 'components/Navigation/FilterButton';
 import AddTagButton from 'components/Navigation/TagListButton';
 import AddScheduleButton from 'components/Navigation/AddScheduleButton';
 import { SelectedDateContext } from 'hooks/useSelectedDateContext';
+import { UseScheduleType } from 'hooks/useSchedules';
+import type { TagBox } from 'hooks/useTags';
+
+type Props = {
+  addSchedule: UseScheduleType['addSchedule'];
+  tagBoxes: TagBox[];
+};
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -28,7 +35,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Navigation: FC = () => {
+const Navigation: FC<Props> = (props) => {
   const classes = useStyles();
 
   const { selectedDate, handleChangeSelectedDate } = React.useContext(
@@ -79,7 +86,10 @@ const Navigation: FC = () => {
         <JumpButton />
         <FilterButton />
         <AddTagButton />
-        <AddScheduleButton />
+        <AddScheduleButton
+          addSchedule={props.addSchedule}
+          tagBoxes={props.tagBoxes}
+        />
       </ToolBar>
     </AppBar>
   );
