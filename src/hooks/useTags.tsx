@@ -1,17 +1,18 @@
 import React from 'react';
-import { getAll, TagWithColor } from 'services/request_tags';
+import { TagWithColor } from 'services/request_schedules';
+import { getAll } from 'services/request_tags';
 
 type UseTags = {
-  tagBox: TagBox[];
+  tagBoxes: TagBox[];
 };
 
-type TagBox = {
+export type TagBox = {
   tag: TagWithColor;
   checked: boolean;
 };
 
 export const useTags = (): UseTags => {
-  const [tagBox, setTagBox] = React.useState<TagBox[]>([]);
+  const [tagBoxes, setTagBox] = React.useState<TagBox[]>([]);
 
   React.useEffect(() => {
     (async () => {
@@ -25,5 +26,5 @@ export const useTags = (): UseTags => {
     })();
   }, []);
 
-  return { tagBox };
+  return { tagBoxes };
 };
