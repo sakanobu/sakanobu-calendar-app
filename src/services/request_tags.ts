@@ -1,24 +1,5 @@
-import firebase from 'firebase/app';
 import { db } from '../firebase';
-
-type Tag = {
-  name: string;
-  checked: boolean;
-  colorRef: firebase.firestore.DocumentReference;
-};
-
-type Color = {
-  name: string;
-  theme: string;
-};
-
-export type TagWithColor = {
-  name: string;
-  selectedColor: {
-    name: string;
-    theme: string;
-  };
-};
+import type { Tag, Color, TagWithColor } from 'services/request_schedules';
 
 // TODO checked って項目､Firestore には不要で､useState({tagWithColor, checked:true}) みたいにすべき
 export const getAll = async (): Promise<TagWithColor[]> => {
@@ -32,6 +13,7 @@ export const getAll = async (): Promise<TagWithColor[]> => {
 
       return {
         name: tag.name,
+        tagRef: doc.ref,
         selectedColor: {
           name: color.name,
           theme: color.theme,
