@@ -45,6 +45,7 @@ const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
     setSelectedTagRef,
   ] = React.useState<firebase.firestore.DocumentReference | null>(null);
 
+  // TODO handle○○()のnew Date()って1回で良くないか?
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
@@ -134,6 +135,7 @@ const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
       )
     );
 
+    // TODO new Date()は1回で良くないか?
     props.handleClose();
     setScheduleTitle('');
     setSelectedTagName('必ず選択してください');

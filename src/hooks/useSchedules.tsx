@@ -33,39 +33,40 @@ export const useSchedule = (selectedDate: Date): UseScheduleType => {
 
   const addSchedule = React.useCallback(
     async (
-    title: string,
-    tagRef: firebase.firestore.DocumentReference,
-    startTime: Date
-  ): Promise<void> => {
-    const newSchedule = {
-      title,
-      tagRef,
-      startTime: new firebase.firestore.Timestamp(getUnixTime(startTime), 0),
-    };
-
-    const tag = (await newSchedule.tagRef.get()).data() as Tag;
-
-    const color = { name: 'red', theme: 'palette.error.dark' } as Color;
-
-    await add(newSchedule).then((addedSchedule) => {
-      const newScheduleWithUserTagColor: ScheduleWithUserTagColor = {
-        title: addedSchedule.title,
-        startTime: addedSchedule.startTime,
-        selectedTag: {
-          name: tag.name,
-          tagRef: tag.tagRef,
-          selectedColor: {
-            ...color,
-          },
-        },
+      title: string,
+      tagRef: firebase.firestore.DocumentReference,
+      startTime: Date
+    ): Promise<void> => {
+      const newSchedule = {
+        title,
+        tagRef,
+        startTime: new firebase.firestore.Timestamp(getUnixTime(startTime), 0),
       };
 
-      setSchedules([newScheduleWithUserTagColor].concat(schedules));
-    });
+      const tag = (await newSchedule.tagRef.get()).data() as Tag;
 
-    return new Promise((resolve) => {
-      resolve();
-    });
+      // TODO あれ､固定値になってる???
+      const color = { name: 'red', theme: 'palette.error.dark' } as Color;
+
+      await add(newSchedule).then((addedSchedule) => {
+        const newScheduleWithUserTagColor: ScheduleWithUserTagColor = {
+          title: addedSchedule.title,
+          startTime: addedSchedule.startTime,
+          selectedTag: {
+            name: tag.name,
+            tagRef: tag.tagRef,
+            selectedColor: {
+              ...color,
+            },
+          },
+        };
+
+        setSchedules([newScheduleWithUserTagColor].concat(schedules));
+      });
+
+      return new Promise((resolve) => {
+        resolve();
+      });
     },
     [schedules]
   );
