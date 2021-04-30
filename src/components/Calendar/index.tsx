@@ -130,7 +130,7 @@ const Calendar: FC<Props> = (props) => {
                       .map((schedule) => {
                         return (
                           <div key={schedule.title}>
-                            {format(schedule.startTime.toDate(), 'hh:mm')}{' '}
+                            {format(schedule.startTime.toDate(), 'HH:mm')}{' '}
                             {schedule.title}
                           </div>
                         );
