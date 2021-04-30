@@ -31,7 +31,8 @@ export const useSchedule = (selectedDate: Date): UseScheduleType => {
     })();
   }, [selectedDate]);
 
-  const addSchedule = async (
+  const addSchedule = React.useCallback(
+    async (
     title: string,
     tagRef: firebase.firestore.DocumentReference,
     startTime: Date
@@ -65,7 +66,9 @@ export const useSchedule = (selectedDate: Date): UseScheduleType => {
     return new Promise((resolve) => {
       resolve();
     });
-  };
+    },
+    [schedules]
+  );
 
   return { schedules, addSchedule };
 };

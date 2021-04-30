@@ -58,9 +58,7 @@ const Navigation: FC<Props> = (props) => {
         <Button
           variant="contained"
           className={classes.button}
-          onClick={() => {
-            handleClickTodayButton();
-          }}
+          onClick={handleClickTodayButton}
         >
           今日
         </Button>
@@ -68,17 +66,13 @@ const Navigation: FC<Props> = (props) => {
           variant="contained"
           className={classes.button}
           startIcon={<ChevronLeftIcon />}
-          onClick={() => {
-            handleClickLeftIcon();
-          }}
+          onClick={handleClickLeftIcon}
         />
         <Button
           variant="contained"
           className={classes.button}
           startIcon={<ChevronRightIcon />}
-          onClick={() => {
-            handleClickRightIcon();
-          }}
+          onClick={handleClickRightIcon}
         />
         <Typography className={classes.dateToday} align="center">
           {`${format(selectedDate, 'yyyy')}年 ${format(selectedDate, 'MM')}月`}

@@ -2,16 +2,16 @@ import React, { FC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import AddTagDialog from 'components/Dialog/TagListDialog';
 
-const TagListButton: FC = () => {
+const TagListButton: FC = React.memo(() => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
   return (
     <>
@@ -21,6 +21,8 @@ const TagListButton: FC = () => {
       <AddTagDialog open={open} handleClose={handleClose} />
     </>
   );
-};
+});
+
+TagListButton.displayName = 'TagListButton';
 
 export default TagListButton;

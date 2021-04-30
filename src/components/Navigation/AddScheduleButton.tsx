@@ -9,16 +9,16 @@ type Props = {
   tagBoxes: TagBox[];
 };
 
-const AddScheduleButton: FC<Props> = (props) => {
+const AddScheduleButton: FC<Props> = React.memo<Props>((props) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
   return (
     <>
@@ -33,6 +33,8 @@ const AddScheduleButton: FC<Props> = (props) => {
       />
     </>
   );
-};
+});
+
+AddScheduleButton.displayName = 'AddScheduleButton';
 
 export default AddScheduleButton;

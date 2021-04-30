@@ -31,7 +31,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const AddScheduleDialog: FC<Props> = (props) => {
+const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
   const classes = useStyles();
 
   const [scheduleTitle, setScheduleTitle] = React.useState('');
@@ -83,13 +83,64 @@ const AddScheduleDialog: FC<Props> = (props) => {
 
   // 予定/日付/開始時間/終了時間でnull上書きしていないのはご操作でダイアログを閉じた時に
   // 予定の部分は残っていたほうがいいかなという判断
-  const closeDialog = () => {
+  const closeDialog = React.useCallback(() => {
     props.handleClose();
     setSelectedTagName('必ず選択してください');
     setSelectedTagRef(null);
-  };
+  }, []);
 
-  console.log(selectedStartTime, objectForDate);
+  const handleScheduleTitle = React.useCallback((event) => {
+    setScheduleTitle(event.target.value);
+  }, []);
+
+  const handleDateInput = React.useCallback((date) => {
+    setSelectedDate(date);
+  }, []);
+
+  const handleStartTimeInput = React.useCallback((date) => {
+    setSelectedStartTime(date);
+  }, []);
+
+  const handleTagSelectBox = React.useCallback(
+    (event) => {
+      const selectedTagBox = props.tagBoxes.find((tagBox) => {
+        return tagBox.tag.name === event.target.value;
+      });
+
+      if (selectedTagBox === undefined) {
+        throw new Error();
+      }
+
+      setSelectedTagName(selectedTagBox.tag.name);
+      setSelectedTagRef(selectedTagBox.tag.tagRef);
+    },
+    [props.tagBoxes]
+  );
+
+  const handleSubmit = React.useCallback(() => {
+    if (selectedTagRef === null) {
+      throw new Error();
+    }
+
+    props.addSchedule(
+      scheduleTitle,
+      selectedTagRef,
+      new Date(
+        objectForDate['year'],
+        objectForDate['month'],
+        objectForDate['date'],
+        objectForDate['hours'],
+        objectForDate['minutes']
+      )
+    );
+
+    props.handleClose();
+    setScheduleTitle('');
+    setSelectedTagName('必ず選択してください');
+    setSelectedTagRef(null);
+    setSelectedDate(new Date());
+    setSelectedStartTime(new Date());
+  }, [scheduleTitle, selectedTagRef, objectForDate]);
 
   return (
     <Dialog open={props.open} onClose={closeDialog}>
@@ -100,9 +151,7 @@ const AddScheduleDialog: FC<Props> = (props) => {
           variant="outlined"
           size="small"
           value={scheduleTitle}
-          onChange={(event) => {
-            setScheduleTitle(event.target.value);
-          }}
+          onChange={handleScheduleTitle}
         />
         <DatePicker
           label="日付"
@@ -110,16 +159,12 @@ const AddScheduleDialog: FC<Props> = (props) => {
           openTo="year"
           views={['year', 'month', 'date']}
           value={selectedDate}
-          onChange={(date) => {
-            setSelectedDate(date);
-          }}
+          onChange={handleDateInput}
         />
         <TimePicker
           label="開始時間"
           value={selectedStartTime}
-          onChange={(date) => {
-            setSelectedStartTime(date);
-          }}
+          onChange={handleStartTimeInput}
         />
         <FormControl>
           <InputLabel shrink htmlFor="tag">
@@ -128,18 +173,7 @@ const AddScheduleDialog: FC<Props> = (props) => {
           <NativeSelect
             inputProps={{ id: 'tag' }}
             value={selectedTagName}
-            onChange={(event) => {
-              const selectedTagBox = props.tagBoxes.find((tagBox) => {
-                return tagBox.tag.name === event.target.value;
-              });
-
-              if (selectedTagBox === undefined) {
-                throw new Error();
-              }
-
-              setSelectedTagName(selectedTagBox.tag.name);
-              setSelectedTagRef(selectedTagBox.tag.tagRef);
-            }}
+            onChange={handleTagSelectBox}
           >
             <option value={''}>必ず選択してください</option>
             {props.tagBoxes.map((tagBox) => {
@@ -162,43 +196,15 @@ const AddScheduleDialog: FC<Props> = (props) => {
           variant={'contained'}
           color="primary"
           disabled={!scheduleTitle || !selectedTagRef}
-          onClick={() => {
-            if (selectedTagRef === null) {
-              throw new Error();
-            }
-
-            props.addSchedule(
-              scheduleTitle,
-              selectedTagRef,
-              new Date(
-                objectForDate['year'],
-                objectForDate['month'],
-                objectForDate['date'],
-                objectForDate['hours'],
-                objectForDate['minutes']
-              )
-            );
-            console.log(
-              objectForDate['year'],
-              objectForDate['month'],
-              objectForDate['date'],
-              objectForDate['hours'],
-              objectForDate['minutes']
-            );
-
-            props.handleClose();
-            setScheduleTitle('');
-            setSelectedTagName('必ず選択してください');
-            setSelectedTagRef(null);
-            // setSelectedDate(new Date());
-            // setSelectedStartTime(new Date());
-          }}
+          onClick={handleSubmit}
         >
           保存
         </Button>
       </DialogActions>
     </Dialog>
   );
-};
+});
+
+AddScheduleDialog.displayName = 'AddScheduleDialog';
 
 export default AddScheduleDialog;

@@ -2,16 +2,16 @@ import React, { FC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import FilterDialog from 'components/Dialog/FilterDialog';
 
-const FilterButton: FC = () => {
+const FilterButton: FC = React.memo(() => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
   return (
     <>
@@ -21,6 +21,8 @@ const FilterButton: FC = () => {
       <FilterDialog open={open} handleClose={handleClose} />
     </>
   );
-};
+});
+
+FilterButton.displayName = 'FilterButton';
 
 export default FilterButton;
