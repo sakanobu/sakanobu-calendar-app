@@ -42,7 +42,7 @@ const Navigation: FC<Props> = (props) => {
     SelectedDateContext
   );
 
-  const handleClickTodayButton = () => ~handleChangeSelectedDate(new Date());
+  const handleClickTodayButton = () => handleChangeSelectedDate(new Date());
 
   const handleClickLeftIcon = () => {
     handleChangeSelectedDate(subMonths(selectedDate, 1));
