@@ -33,6 +33,7 @@ const ScheduleListDialog: FC = () => {
     setOpen(false);
   };
 
+  // TODO useRefの意図をコメントで書いておく
   const descriptionElementRef = React.useRef<HTMLElement>(null);
 
   // TODO useEffectってここにいていいのか?
