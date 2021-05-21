@@ -21,11 +21,22 @@ const App: FC = () => {
   const { schedules, addSchedule } = useSchedule(selectedDate);
   const { tagBoxes } = useTags();
 
-  const handleChangeSelectedDate = (date: MaterialUiPickersDate): void => {
+  // const handleChangeSelectedDate = (date: MaterialUiPickersDate): void => {
+  //   if (date === null) {
+  //     throw new Error('日付にnullが指定されました');
+  //   }
+  //   setSelectedDate(date);
+  // };
+
+  const handleChangeSelectedDate = async (
+    date: MaterialUiPickersDate
+  ): Promise<Date> => {
     if (date === null) {
       throw new Error('日付にnullが指定されました');
     }
     setSelectedDate(date);
+
+    return date;
   };
 
   return (

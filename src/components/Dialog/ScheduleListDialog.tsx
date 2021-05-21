@@ -49,7 +49,7 @@ const ScheduleListDialog: FC = () => {
   return (
     <>
       <Button variant="contained" onClick={handleClickOpen}>
-        {'◯'}月{'△'}日の全予定ダイアログのテスト
+        ◯月△日の全予定ダイアログのテスト
       </Button>
       <Dialog
         open={open}
@@ -58,24 +58,20 @@ const ScheduleListDialog: FC = () => {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>
-          {'◯'}月{'△'}日の全予定
-        </DialogTitle>
+        <DialogTitle>◯月△日の全予定</DialogTitle>
         <DialogContent className={classes.dialogContent} dividers>
           <DialogContentText ref={descriptionElementRef} tabIndex={-1}>
             <List>
-              {schedules.map((schedule) => {
-                return (
-                  <>
-                    <ListItem divider button>
-                      <ListItemText>
-                        {format(schedule.startTime, 'kk:mm')}
-                      </ListItemText>
-                      <ListItemText>{schedule.scheduleName}</ListItemText>
-                    </ListItem>
-                  </>
-                );
-              })}
+              {schedules.map((schedule) => (
+                <>
+                  <ListItem divider button>
+                    <ListItemText>
+                      {format(schedule.startTime, 'kk:mm')}
+                    </ListItemText>
+                    <ListItemText>{schedule.scheduleName}</ListItemText>
+                  </ListItem>
+                </>
+              ))}
             </List>
           </DialogContentText>
         </DialogContent>

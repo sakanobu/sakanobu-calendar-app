@@ -9,7 +9,11 @@ const JumpButton: FC = React.memo(() => {
     setOpen(true);
   };
 
-  const handleClose = React.useCallback(() => {
+  // const handleClose = React.useCallback(() => {
+  //   setOpen(false);
+  // }, []);
+
+  const handleClose = React.useCallback(async (): Promise<void> => {
     setOpen(false);
   }, []);
 

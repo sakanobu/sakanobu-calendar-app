@@ -53,7 +53,7 @@ const ScheduleDetailDialog: FC = () => {
         <DialogTitle>
           <Grid container>
             <Grid item xs={8}>
-              {'◯'}月{'△'}日の予定詳細
+              ◯月△日の予定詳細
             </Grid>
             <Grid item xs={2}>
               <IconButton color="inherit" edge="end">

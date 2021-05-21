@@ -46,7 +46,9 @@ export const getAll = async (
     .orderBy('startTime')
     .get();
 
-  return await Promise.all(
+  return Promise.all(
+    // TODO: 合ってるはずなんだけどESLintがエラー報告
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await schedulesQuerySnapshot.docs.map(async (doc) => {
       const schedule = doc.data() as Schedule;
 

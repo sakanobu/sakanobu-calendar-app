@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { FC } from 'react';
-import firebase from 'firebase/app';
+import React, { ChangeEvent, FC } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -14,6 +13,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import Button from '@material-ui/core/Button';
 import type { UseScheduleType } from 'hooks/useSchedules';
 import type { TagBox } from 'hooks/useTags';
+import { useAddSchedule } from 'hooks/useAddSchedule';
 
 type Props = {
   open: boolean;
@@ -34,115 +34,82 @@ const useStyles = makeStyles(() =>
 const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
   const classes = useStyles();
 
-  const [scheduleTitle, setScheduleTitle] = React.useState('');
-
-  const [selectedTagName, setSelectedTagName] = React.useState<string | null>(
-    null
-  );
-
-  const [
-    selectedTagRef,
-    setSelectedTagRef,
-  ] = React.useState<firebase.firestore.DocumentReference | null>(null);
-
-  // TODO handle○○()のnew Date()って1回で良くないか?
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date()
-  );
-  const [selectedStartTime, setSelectedStartTime] = React.useState<Date | null>(
-    new Date()
-  );
-
-  const [objectForDate, setObjectForDate] = React.useState({
-    year: Number(new Date().getFullYear()),
-    month: Number(new Date().getMonth()),
-    date: Number(new Date().getDate()),
-    hours: Number(new Date().getHours()),
-    minutes: Number(new Date().getMinutes()),
-  });
-
-  React.useEffect(() => {
-    setObjectForDate((state) => {
-      return {
-        ...state,
-        year: Number(selectedDate?.getFullYear()),
-        month: Number(selectedDate?.getMonth()),
-        date: Number(selectedDate?.getDate()),
-      };
-    });
-  }, [selectedDate]);
-
-  React.useEffect(() => {
-    setObjectForDate((state) => {
-      return {
-        ...state,
-        hours: Number(selectedStartTime?.getHours()),
-        minutes: Number(selectedStartTime?.getMinutes()),
-      };
-    });
-  }, [selectedStartTime]);
+  const [inputValues, inputHandlers] = useAddSchedule();
 
   // 予定/日付/開始時間/終了時間でnull上書きしていないのはご操作でダイアログを閉じた時に
   // 予定の部分は残っていたほうがいいかなという判断
   const closeDialog = React.useCallback(() => {
     props.handleClose();
-    setSelectedTagName('必ず選択してください');
-    setSelectedTagRef(null);
-  }, []);
+    inputHandlers.setSelectedTagName('必ず選択してください');
+    inputHandlers.setSelectedTagRef(null);
+  }, [props, inputHandlers]);
 
-  const handleScheduleTitle = React.useCallback((event) => {
-    setScheduleTitle(event.target.value);
-  }, []);
+  const handleScheduleTitle = React.useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      inputHandlers.setScheduleTitle(event.target.value);
+    },
+    [inputHandlers]
+  );
 
-  const handleDateInput = React.useCallback((date) => {
-    setSelectedDate(date);
-  }, []);
+  const handleDateInput = React.useCallback(
+    (date) => {
+      inputHandlers.setSelectedDate(date);
+    },
+    [inputHandlers]
+  );
 
-  const handleStartTimeInput = React.useCallback((date) => {
-    setSelectedStartTime(date);
-  }, []);
+  const handleStartTimeInput = React.useCallback(
+    (date) => {
+      inputHandlers.setSelectedStartTime(date);
+    },
+    [inputHandlers]
+  );
 
   const handleTagSelectBox = React.useCallback(
-    (event) => {
-      const selectedTagBox = props.tagBoxes.find((tagBox) => {
-        return tagBox.tag.name === event.target.value;
-      });
+    (event: ChangeEvent<HTMLSelectElement>) => {
+      const selectedTagBox = props.tagBoxes.find(
+        (tagBox) => tagBox.tag.name === event.target.value
+      );
 
       if (selectedTagBox === undefined) {
         throw new Error();
       }
 
-      setSelectedTagName(selectedTagBox.tag.name);
-      setSelectedTagRef(selectedTagBox.tag.tagRef);
+      inputHandlers.setSelectedTagName(selectedTagBox.tag.name);
+      inputHandlers.setSelectedTagRef(selectedTagBox.tag.tagRef);
     },
-    [props.tagBoxes]
+    [props.tagBoxes, inputHandlers]
   );
 
   const handleSubmit = React.useCallback(() => {
-    if (selectedTagRef === null) {
+    if (inputValues.selectedTagRef === null) {
       throw new Error();
     }
 
-    props.addSchedule(
-      scheduleTitle,
-      selectedTagRef,
-      new Date(
-        objectForDate['year'],
-        objectForDate['month'],
-        objectForDate['date'],
-        objectForDate['hours'],
-        objectForDate['minutes']
+    props
+      .addSchedule(
+        inputValues.scheduleTitle,
+        inputValues.selectedTagRef,
+        new Date(
+          inputValues.objectForDate.year,
+          inputValues.objectForDate.month,
+          inputValues.objectForDate.date,
+          inputValues.objectForDate.hours,
+          inputValues.objectForDate.minutes
+        )
       )
-    );
+      .catch(() => {
+        console.error('Error at AddScheduleDialog.tsx');
+      });
 
     // TODO new Date()は1回で良くないか?
     props.handleClose();
-    setScheduleTitle('');
-    setSelectedTagName('必ず選択してください');
-    setSelectedTagRef(null);
-    setSelectedDate(new Date());
-    setSelectedStartTime(new Date());
-  }, [scheduleTitle, selectedTagRef, objectForDate]);
+    inputHandlers.setScheduleTitle('');
+    inputHandlers.setSelectedTagName('必ず選択してください');
+    inputHandlers.setSelectedTagRef(null);
+    inputHandlers.setSelectedDate(new Date());
+    inputHandlers.setSelectedStartTime(new Date());
+  }, [props, inputValues, inputHandlers]);
 
   return (
     <Dialog open={props.open} onClose={closeDialog}>
@@ -152,7 +119,7 @@ const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
           label="予定"
           variant="outlined"
           size="small"
-          value={scheduleTitle}
+          value={inputValues.scheduleTitle}
           onChange={handleScheduleTitle}
         />
         <DatePicker
@@ -160,12 +127,12 @@ const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
           format="yyyy/MM/dd"
           openTo="year"
           views={['year', 'month', 'date']}
-          value={selectedDate}
+          value={inputValues.selectedDate}
           onChange={handleDateInput}
         />
         <TimePicker
           label="開始時間"
-          value={selectedStartTime}
+          value={inputValues.selectedStartTime}
           onChange={handleStartTimeInput}
         />
         <FormControl>
@@ -174,30 +141,28 @@ const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
           </InputLabel>
           <NativeSelect
             inputProps={{ id: 'tag' }}
-            value={selectedTagName}
+            value={inputValues.selectedTagName}
             onChange={handleTagSelectBox}
           >
-            <option value={''}>必ず選択してください</option>
-            {props.tagBoxes.map((tagBox) => {
-              return (
-                <>
-                  <option value={tagBox.tag.name} key={tagBox.tag.name}>
-                    {tagBox.tag.name}
-                  </option>
-                </>
-              );
-            })}
+            <option value="">必ず選択してください</option>
+            {props.tagBoxes.map((tagBox) => (
+              <>
+                <option value={tagBox.tag.name} key={tagBox.tag.name}>
+                  {tagBox.tag.name}
+                </option>
+              </>
+            ))}
           </NativeSelect>
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button variant={'contained'} onClick={closeDialog}>
+        <Button variant="contained" onClick={closeDialog}>
           キャンセル
         </Button>
         <Button
-          variant={'contained'}
+          variant="contained"
           color="primary"
-          disabled={!scheduleTitle || !selectedTagRef}
+          disabled={!inputValues.scheduleTitle || !inputValues.selectedTagRef}
           onClick={handleSubmit}
         >
           保存

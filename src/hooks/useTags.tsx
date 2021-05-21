@@ -18,12 +18,12 @@ export const useTags = (): UseTags => {
     (async () => {
       const tagsWithColor = await getAll();
 
-      const newTagBox = tagsWithColor.map((tag) => {
-        return { tag, checked: true };
-      });
+      const newTagBox = tagsWithColor.map((tag) => ({ tag, checked: true }));
 
       setTagBox(newTagBox);
-    })();
+    })().catch(() => {
+      console.error('Error at useTags.tsx');
+    });
   }, []);
 
   return { tagBoxes };

@@ -23,13 +23,11 @@ const dayOfweek: Record<Day, IndexOfDay> = {
   Sa: 6,
 };
 
-const isDay = (formattedValue: string): formattedValue is Day => {
-  return formattedValue in dayOfweek;
-};
+const isDay = (formattedValue: string): formattedValue is Day =>
+  formattedValue in dayOfweek;
 
-const isIndexOfDay = (computedValue: number): computedValue is IndexOfDay => {
-  return computedValue in Object.values(dayOfweek);
-};
+const isIndexOfDay = (computedValue: number): computedValue is IndexOfDay =>
+  computedValue in Object.values(dayOfweek);
 
 /**
  * 指定した年月の初日よりも前に表示される前月の日付の個数を算出する
@@ -85,22 +83,19 @@ const numberOfDisplayedAfterMonthDates = (
 const createCalendarArrayPartsBeforeSelectedMonth = (
   firstDateOfSelectedDate: Date,
   lastDateOfBeforeSelectedMonth: Date
-): CalendarArrayType => {
-  return Array.from({
+): CalendarArrayType =>
+  Array.from({
     length: numberOfDisplayedBeforeMonthDates(firstDateOfSelectedDate),
-  }).map((_, i) => {
-    return {
-      day: String(
-        Number(format(lastDateOfBeforeSelectedMonth, 'dd')) -
-          numberOfDisplayedBeforeMonthDates(firstDateOfSelectedDate) +
-          1 +
-          i
-      ),
-      indexForKey: i,
-      selectedMonth: false,
-    };
-  });
-};
+  }).map((_, i) => ({
+    day: String(
+      Number(format(lastDateOfBeforeSelectedMonth, 'dd')) -
+        numberOfDisplayedBeforeMonthDates(firstDateOfSelectedDate) +
+        1 +
+        i
+    ),
+    indexForKey: i,
+    selectedMonth: false,
+  }));
 
 /**
  * カレンダーで表示される日付の指定した月の部分を要素とした配列を作成する
@@ -112,18 +107,14 @@ const createCalendarArrayPartsBeforeSelectedMonth = (
 const createCalendarArrayPartsSelectedMonth = (
   firstDateOfSelectedDate: Date,
   lastDateOfSelectedDate: Date
-): CalendarArrayType => {
-  return Array.from({
+): CalendarArrayType =>
+  Array.from({
     length: Number(format(lastDateOfSelectedDate, 'dd')),
-  }).map((_, i) => {
-    return {
-      day: String(i + 1),
-      indexForKey:
-        numberOfDisplayedBeforeMonthDates(firstDateOfSelectedDate) + i,
-      selectedMonth: true,
-    };
-  });
-};
+  }).map((_, i) => ({
+    day: String(i + 1),
+    indexForKey: numberOfDisplayedBeforeMonthDates(firstDateOfSelectedDate) + i,
+    selectedMonth: true,
+  }));
 
 /**
  * カレンダーで表示される日付の来月の部分を要素とした配列を作成する
@@ -135,20 +126,17 @@ const createCalendarArrayPartsSelectedMonth = (
 const createCalendarArrayPartsAfterSelectedMonth = (
   firstDateOfSelectedDate: Date,
   lastDateOfSelectedDate: Date
-): CalendarArrayType => {
-  return Array.from({
+): CalendarArrayType =>
+  Array.from({
     length: numberOfDisplayedAfterMonthDates(lastDateOfSelectedDate),
-  }).map((_, i) => {
-    return {
-      day: String(i + 1),
-      indexForKey:
-        numberOfDisplayedBeforeMonthDates(firstDateOfSelectedDate) +
-        Number(format(lastDateOfSelectedDate, 'dd')) +
-        i,
-      selectedMonth: false,
-    };
-  });
-};
+  }).map((_, i) => ({
+    day: String(i + 1),
+    indexForKey:
+      numberOfDisplayedBeforeMonthDates(firstDateOfSelectedDate) +
+      Number(format(lastDateOfSelectedDate, 'dd')) +
+      i,
+    selectedMonth: false,
+  }));
 
 /**
  * 指定した月およびその前後の月の週の日にちの一部も含んだ日付の配列を返す関数

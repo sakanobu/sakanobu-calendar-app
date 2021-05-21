@@ -14,29 +14,25 @@ type Props = {
   handleClose: () => void;
 };
 
-const Container: FC<Props> = (props) => {
-  return (
-    <Dialog open={props.open} onClose={props.handleClose}>
-      <DialogTitle>表示したいタグを選択</DialogTitle>
-      <DialogContent>
-        <FormGroup>
-          {tags.map((tag) => {
-            return (
-              <>
-                <FormControlLabel
-                  label={tag.tagName}
-                  control={<Checkbox checked={tag.checked} />}
-                />
-              </>
-            );
-          })}
-        </FormGroup>
-      </DialogContent>
-      <DialogActions>
-        <Button variant="contained">フィルター</Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
+const Container: FC<Props> = ({ open, handleClose }) => (
+  <Dialog open={open} onClose={handleClose}>
+    <DialogTitle>表示したいタグを選択</DialogTitle>
+    <DialogContent>
+      <FormGroup>
+        {tags.map((tag) => (
+          <>
+            <FormControlLabel
+              label={tag.tagName}
+              control={<Checkbox checked={tag.checked} />}
+            />
+          </>
+        ))}
+      </FormGroup>
+    </DialogContent>
+    <DialogActions>
+      <Button variant="contained">フィルター</Button>
+    </DialogActions>
+  </Dialog>
+);
 
 export default Container;

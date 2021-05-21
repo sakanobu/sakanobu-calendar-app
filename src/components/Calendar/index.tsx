@@ -63,39 +63,54 @@ const Calendar: FC<Props> = (props) => {
 
   let firstDateCounter = 0;
 
+  const dayOfTheWeek = ['日', '月', '火', '水', '木', '金', '土'] as const;
+
   const displayDate = (
     selectedDay: CalendarArrayType[number],
-    selectedDate: Date
+    _selectedDate: Date
   ): string => {
     if (selectedDay.day !== '1') {
       return selectedDay.day;
-    } else if (selectedDay.selectedMonth === true) {
-      return `${format(selectedDate, 'M')}月1日`;
-    } else {
-      return `${format(addMonths(selectedDate, 1), 'M')}月1日`;
+    }
+    if (selectedDay.selectedMonth === true) {
+      return `${format(_selectedDate, 'M')}月1日`;
+    }
+
+    return `${format(addMonths(_selectedDate, 1), 'M')}月1日`;
+  };
+
+  const calendarBackgroundColor = (day: typeof dayOfTheWeek[number]) => {
+    switch (day) {
+      case '日':
+        return { backgroundColor: '#FFAD90' };
+      case '土':
+        return { backgroundColor: '#BAD3FF' };
+      default:
+        return { backgroundColor: '#FFFFEE' };
     }
   };
 
   return (
     <div className={classes.calendarContainer}>
       <div className={classes.dayOfTheWeekContainer}>
-        {['日', '月', '火', '水', '木', '金', '土'].map((day, i) => {
-          return (
-            <div
-              className={classes.dayOfTheWeekItem}
-              style={
-                day === '日'
-                  ? { backgroundColor: '#FFAD90' }
-                  : day === '土'
-                  ? { backgroundColor: '#BAD3FF' }
-                  : { backgroundColor: '#FFFFEE' }
-              }
-              key={i}
-            >
-              <Typography align="center">{day}</Typography>
-            </div>
-          );
-        })}
+        {/* {['日', '月', '火', '水', '木', '金', '土'].map( */}
+        {dayOfTheWeek.map((day: typeof dayOfTheWeek[number]) => (
+          <div
+            className={classes.dayOfTheWeekItem}
+            // style={
+            //   day === '日'
+            //     ? { backgroundColor: '#FFAD90' }
+            //     : day === '土'
+            //     ? { backgroundColor: '#BAD3FF' }
+            //     : { backgroundColor: '#FFFFEE' }
+            // }
+            style={calendarBackgroundColor(day)}
+            // key={i}
+            key={day}
+          >
+            <Typography align="center">{day}</Typography>
+          </div>
+        ))}
       </div>
 
       <div className={classes.scheduleContainer}>
@@ -121,20 +136,17 @@ const Calendar: FC<Props> = (props) => {
               <div className={classes.scheduleItemContent}>
                 {firstDateCounter === 1
                   ? props.schedules
-                      .filter((schedule) => {
-                        return (
+                      .filter(
+                        (schedule) =>
                           schedule.startTime.toDate().getDate() ===
                           Number(selectedDay.day)
-                        );
-                      })
-                      .map((schedule) => {
-                        return (
-                          <div key={schedule.title}>
-                            {format(schedule.startTime.toDate(), 'HH:mm')}{' '}
-                            {schedule.title}
-                          </div>
-                        );
-                      })
+                      )
+                      .map((schedule) => (
+                        <div key={schedule.title}>
+                          {format(schedule.startTime.toDate(), 'HH:mm')}{' '}
+                          {schedule.title}
+                        </div>
+                      ))
                   : null}
               </div>
             </div>

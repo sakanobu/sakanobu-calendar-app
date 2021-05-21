@@ -1,11 +1,11 @@
-import { db } from '../firebase';
 import type { Tag, Color, TagWithColor } from 'services/request_schedules';
+import { db } from '../firebase';
 
 // TODO checked って項目､Firestore には不要で､useState({tagWithColor, checked:true}) みたいにすべき
 export const getAll = async (): Promise<TagWithColor[]> => {
   const tagsQuerySnapshot = await db.collection('tags').get();
 
-  return await Promise.all(
+  return Promise.all(
     tagsQuerySnapshot.docs.map(async (doc) => {
       const tag = doc.data() as Tag;
 

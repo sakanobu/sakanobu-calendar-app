@@ -35,21 +35,24 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Navigation: FC<Props> = (props) => {
+const Navigation: FC<Props> = ({ addSchedule, tagBoxes }) => {
   const classes = useStyles();
 
-  const { selectedDate, handleChangeSelectedDate } = React.useContext(
-    SelectedDateContext
-  );
+  const { selectedDate, handleChangeSelectedDate } =
+    React.useContext(SelectedDateContext);
 
   const handleClickTodayButton = () => handleChangeSelectedDate(new Date());
 
   const handleClickLeftIcon = () => {
-    handleChangeSelectedDate(subMonths(selectedDate, 1));
+    handleChangeSelectedDate(subMonths(selectedDate, 1)).catch(() => {
+      console.error('Error at AddScheduleButton.tsx');
+    });
   };
 
   const handleClickRightIcon = () => {
-    handleChangeSelectedDate(addMonths(selectedDate, 1));
+    handleChangeSelectedDate(addMonths(selectedDate, 1)).catch(() => {
+      console.error('Error at AddScheduleButton.tsx');
+    });
   };
 
   return (
@@ -80,10 +83,7 @@ const Navigation: FC<Props> = (props) => {
         <JumpButton />
         <FilterButton />
         <AddTagButton />
-        <AddScheduleButton
-          addSchedule={props.addSchedule}
-          tagBoxes={props.tagBoxes}
-        />
+        <AddScheduleButton addSchedule={addSchedule} tagBoxes={tagBoxes} />
       </ToolBar>
     </AppBar>
   );

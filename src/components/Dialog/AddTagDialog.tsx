@@ -47,19 +47,17 @@ const AddTagDialog: FC = () => {
               タグ
             </InputLabel>
             <NativeSelect
-              value={'aaa'}
+              value="aaa"
               onChange={() => console.log(1)}
               inputProps={{ name: 'color', id: 'color' }}
             >
-              {colors.map((color) => {
-                return (
-                  <>
-                    <option value={color.colorName} key={color.colorID}>
-                      {color.colorName}
-                    </option>
-                  </>
-                );
-              })}
+              {colors.map((color) => (
+                <>
+                  <option value={color.colorName} key={color.colorID}>
+                    {color.colorName}
+                  </option>
+                </>
+              ))}
             </NativeSelect>
           </FormControl>
         </DialogContent>

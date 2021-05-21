@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase from 'firebase/app';
+import { getUnixTime } from 'date-fns';
 import {
   add,
   getAll,
@@ -7,7 +8,6 @@ import {
   Tag,
   ScheduleWithUserTagColor,
 } from 'services/request_schedules';
-import { getUnixTime } from 'date-fns';
 
 export type UseScheduleType = {
   schedules: ScheduleWithUserTagColor[];
@@ -28,7 +28,9 @@ export const useSchedule = (selectedDate: Date): UseScheduleType => {
       const newSchedules = await getAll(selectedDate);
 
       setSchedules(newSchedules);
-    })();
+    })().catch(() => {
+      console.error('Error at useSchedules.tsx');
+    });
   }, [selectedDate]);
 
   const addSchedule = React.useCallback(

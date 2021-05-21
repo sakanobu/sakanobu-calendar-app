@@ -38,13 +38,11 @@ describe('createCalendarArray', () => {
       '1',
       '2',
       '3',
-    ].map((day: string, i: number) => {
-      return {
-        day,
-        indexForKey: i,
-        selectedMonth: i >= 1 && i <= 31 ? true : false,
-      };
-    });
+    ].map((day: string, i: number) => ({
+      day,
+      indexForKey: i,
+      selectedMonth: !!(i >= 1 && i <= 31),
+    }));
 
     const result = createCalendarArray(new Date(2021, 2));
 

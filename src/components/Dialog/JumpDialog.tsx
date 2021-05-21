@@ -10,21 +10,20 @@ import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 
 type Props = {
   open: boolean;
-  handleClose: () => void;
+  handleClose: () => Promise<void>;
 };
 
-const JumpDialog: FC<Props> = (props) => {
-  const { selectedDate, handleChangeSelectedDate } = React.useContext(
-    SelectedDateContext
-  );
+const JumpDialog: FC<Props> = ({ open, handleClose }) => {
+  const { selectedDate, handleChangeSelectedDate } =
+    React.useContext(SelectedDateContext);
 
   const handleChange = async (date: MaterialUiPickersDate) => {
     await handleChangeSelectedDate(date);
-    await props.handleClose();
+    await handleClose();
   };
 
   return (
-    <Dialog open={props.open} onClose={props.handleClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>指定した年月にジャンプ</DialogTitle>
       <DialogContent>
         <DatePicker
@@ -37,7 +36,7 @@ const JumpDialog: FC<Props> = (props) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="inherit" onClick={props.handleClose}>
+        <Button variant="contained" color="inherit" onClick={handleClose}>
           キャンセル
         </Button>
       </DialogActions>

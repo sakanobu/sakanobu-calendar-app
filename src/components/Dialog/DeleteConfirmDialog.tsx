@@ -27,7 +27,7 @@ const DeleteConfirmDialog: FC = () => {
           <ReportProblemIcon />
           削除確認画面
         </DialogTitle>
-        <DialogContent>{'｢~~｣を削除してもよろしいですか?'}</DialogContent>
+        <DialogContent>｢~~｣を削除してもよろしいですか?</DialogContent>
         <DialogActions>
           <Button variant="contained">キャンセル</Button>
           <Button variant="contained" color="secondary">

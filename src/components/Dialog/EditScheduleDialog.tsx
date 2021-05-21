@@ -61,25 +61,23 @@ const EditScheduleDialog: FC = () => {
               タグ
             </InputLabel>
             <NativeSelect
-              value={'aaa'}
+              value="aaa"
               onChange={() => console.log(1)}
               inputProps={{ name: 'tag', id: 'tag' }}
             >
-              {tags.map((tag) => {
-                return (
-                  <>
-                    <option value={tag.tagName} key={tag.tagID}>
-                      {tag.tagName}
-                    </option>
-                  </>
-                );
-              })}
+              {tags.map((tag) => (
+                <>
+                  <option value={tag.tagName} key={tag.tagID}>
+                    {tag.tagName}
+                  </option>
+                </>
+              ))}
             </NativeSelect>
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button variant={'contained'}>キャンセル</Button>
-          <Button variant={'contained'} color="primary">
+          <Button variant="contained">キャンセル</Button>
+          <Button variant="contained" color="primary">
             保存
           </Button>
         </DialogActions>

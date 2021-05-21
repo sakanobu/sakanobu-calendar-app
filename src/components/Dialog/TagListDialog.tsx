@@ -18,41 +18,33 @@ export type Props = {
   handleClose: () => void;
 };
 
-const TagListDialog: FC<Props> = (props) => {
-  return (
-    <Dialog
-      open={props.open}
-      onClose={props.handleClose}
-      fullWidth={true}
-      maxWidth="xs"
-    >
-      <DialogTitle>
-        タグの追加/編集/削除
-        <Fab color="primary">
-          <AddIcon />
-        </Fab>
-      </DialogTitle>
-      <DialogContent>
-        <List>
-          {tags.map((tag, i) => {
-            return (
-              <ListItem divider key={i}>
-                <ListItemText>{tag.tagName}</ListItemText>
-                <ListItemSecondaryAction>
-                  <IconButton color="inherit" edge="end">
-                    <CreateIcon />
-                  </IconButton>
-                  <IconButton color="secondary" edge="end">
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            );
-          })}
-        </List>
-      </DialogContent>
-    </Dialog>
-  );
-};
+const TagListDialog: FC<Props> = ({ open, handleClose }) => (
+  <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+    <DialogTitle>
+      タグの追加/編集/削除
+      <Fab color="primary">
+        <AddIcon />
+      </Fab>
+    </DialogTitle>
+    <DialogContent>
+      <List>
+        {tags.map((tag) => (
+          // <ListItem divider key={i}>
+          <ListItem divider key={tag.tagID}>
+            <ListItemText>{tag.tagName}</ListItemText>
+            <ListItemSecondaryAction>
+              <IconButton color="inherit" edge="end">
+                <CreateIcon />
+              </IconButton>
+              <IconButton color="secondary" edge="end">
+                <DeleteIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
+      </List>
+    </DialogContent>
+  </Dialog>
+);
 
 export default TagListDialog;
