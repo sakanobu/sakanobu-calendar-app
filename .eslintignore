@@ -7,5 +7,9 @@ coverage
 # others
 build
 public
+yarn.lock
+package-lock.json
 **/*.min.js
 *.config.js
+.eslintrc.js
+jest.setup.js
