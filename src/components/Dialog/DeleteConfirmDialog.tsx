@@ -30,7 +30,7 @@ const DeleteConfirmDialog: FC = () => {
         <DialogContent>｢~~｣を削除してもよろしいですか?</DialogContent>
         <DialogActions>
           <Button variant="contained">キャンセル</Button>
-          <Button variant="contained" color="secondary">
+          <Button color="secondary" variant="contained">
             削除
           </Button>
         </DialogActions>

@@ -28,7 +28,7 @@ const UnsaveConfirmDialog: FC = () => {
         </DialogTitle>
         <DialogActions>
           <Button variant="contained">キャンセル</Button>
-          <Button variant="contained" color="secondary">
+          <Button color="secondary" variant="contained">
             破棄
           </Button>
         </DialogActions>

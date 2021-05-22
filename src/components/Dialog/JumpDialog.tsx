@@ -27,16 +27,16 @@ const JumpDialog: FC<Props> = ({ open, handleClose }) => {
       <DialogTitle>指定した年月にジャンプ</DialogTitle>
       <DialogContent>
         <DatePicker
-          label="○年○月"
           format="yyyy/MM"
+          label="○年○月"
           openTo="year"
-          views={['year', 'month']}
           value={selectedDate}
+          views={['year', 'month']}
           onChange={handleChange}
         />
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="inherit" onClick={handleClose}>
+        <Button color="inherit" variant="contained" onClick={handleClose}>
           キャンセル
         </Button>
       </DialogActions>

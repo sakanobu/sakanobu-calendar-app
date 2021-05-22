@@ -22,7 +22,7 @@ const JumpButton: FC = React.memo(() => {
       <Button variant="contained" onClick={handleClickOpen}>
         ジャンプ
       </Button>
-      <JumpDialog open={open} handleClose={handleClose} />
+      <JumpDialog handleClose={handleClose} open={open} />
     </>
   );
 });

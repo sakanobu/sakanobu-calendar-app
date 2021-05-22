@@ -26,9 +26,9 @@ const AddScheduleButton: FC<Props> = React.memo<Props>((props) => {
         +予定
       </Button>
       <AddScheduleDialog
-        open={open}
-        handleClose={handleClose}
         addSchedule={props.addSchedule}
+        handleClose={handleClose}
+        open={open}
         tagBoxes={props.tagBoxes}
       />
     </>

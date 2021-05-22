@@ -117,17 +117,17 @@ const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
       <DialogContent className={classes.dialogContent}>
         <TextField
           label="予定"
-          variant="outlined"
           size="small"
           value={inputValues.scheduleTitle}
+          variant="outlined"
           onChange={handleScheduleTitle}
         />
         <DatePicker
-          label="日付"
           format="yyyy/MM/dd"
+          label="日付"
           openTo="year"
-          views={['year', 'month', 'date']}
           value={inputValues.selectedDate}
+          views={['year', 'month', 'date']}
           onChange={handleDateInput}
         />
         <TimePicker
@@ -147,7 +147,7 @@ const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
             <option value="">必ず選択してください</option>
             {props.tagBoxes.map((tagBox) => (
               <>
-                <option value={tagBox.tag.name} key={tagBox.tag.name}>
+                <option key={tagBox.tag.name} value={tagBox.tag.name}>
                   {tagBox.tag.name}
                 </option>
               </>
@@ -160,9 +160,9 @@ const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
           キャンセル
         </Button>
         <Button
-          variant="contained"
           color="primary"
           disabled={!inputValues.scheduleTitle || !inputValues.selectedTagRef}
+          variant="contained"
           onClick={handleSubmit}
         >
           保存

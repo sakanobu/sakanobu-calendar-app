@@ -44,11 +44,11 @@ const ScheduleDetailDialog: FC = () => {
         予定詳細ダイアログのテスト
       </Button>
       <Dialog
-        open={open}
-        onClose={handleClose}
-        scroll="paper"
         fullWidth
         maxWidth="xs"
+        open={open}
+        scroll="paper"
+        onClose={handleClose}
       >
         <DialogTitle>
           <Grid container>
@@ -67,7 +67,7 @@ const ScheduleDetailDialog: FC = () => {
             </Grid>
           </Grid>
         </DialogTitle>
-        <DialogContent className={classes.dialogContent} dividers>
+        <DialogContent dividers className={classes.dialogContent}>
           <List>
             <ListItem divider>
               <ListItemText>予定: {schedule!.scheduleName}</ListItemText>

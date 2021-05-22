@@ -96,7 +96,7 @@ const Calendar: FC<Props> = (props) => {
         {/* {['日', '月', '火', '水', '木', '金', '土'].map( */}
         {dayOfTheWeek.map((day: typeof dayOfTheWeek[number]) => (
           <div
-            className={classes.dayOfTheWeekItem}
+            key={day}
             // style={
             //   day === '日'
             //     ? { backgroundColor: '#FFAD90' }
@@ -104,9 +104,9 @@ const Calendar: FC<Props> = (props) => {
             //     ? { backgroundColor: '#BAD3FF' }
             //     : { backgroundColor: '#FFFFEE' }
             // }
-            style={calendarBackgroundColor(day)}
+            className={classes.dayOfTheWeekItem}
             // key={i}
-            key={day}
+            style={calendarBackgroundColor(day)}
           >
             <Typography align="center">{day}</Typography>
           </div>
@@ -121,12 +121,12 @@ const Calendar: FC<Props> = (props) => {
 
           return (
             <div
+              key={selectedDay.indexForKey}
               className={
                 selectedDay.selectedMonth === true
                   ? classes.scheduleItem
                   : classes.scheduleItemNotSelectedMonth
               }
-              key={selectedDay.indexForKey}
             >
               <div className={classes.scheduleItemHeader}>
                 <Typography align="center">

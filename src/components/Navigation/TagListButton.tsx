@@ -18,7 +18,7 @@ const TagListButton: FC = React.memo(() => {
       <Button variant="contained" onClick={handleClickOpen}>
         タグ
       </Button>
-      <AddTagDialog open={open} handleClose={handleClose} />
+      <AddTagDialog handleClose={handleClose} open={open} />
     </>
   );
 });

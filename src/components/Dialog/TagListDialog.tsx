@@ -19,7 +19,7 @@ export type Props = {
 };
 
 const TagListDialog: FC<Props> = ({ open, handleClose }) => (
-  <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+  <Dialog fullWidth maxWidth="xs" open={open} onClose={handleClose}>
     <DialogTitle>
       タグの追加/編集/削除
       <Fab color="primary">
@@ -30,7 +30,7 @@ const TagListDialog: FC<Props> = ({ open, handleClose }) => (
       <List>
         {tags.map((tag) => (
           // <ListItem divider key={i}>
-          <ListItem divider key={tag.tagID}>
+          <ListItem key={tag.tagID} divider>
             <ListItemText>{tag.tagName}</ListItemText>
             <ListItemSecondaryAction>
               <IconButton color="inherit" edge="end">

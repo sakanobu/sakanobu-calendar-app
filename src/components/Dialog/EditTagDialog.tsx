@@ -47,13 +47,13 @@ const EditTagDialog: FC = () => {
               タグ
             </InputLabel>
             <NativeSelect
+              inputProps={{ name: 'color', id: 'color' }}
               value="aaa"
               onChange={() => console.log(1)}
-              inputProps={{ name: 'color', id: 'color' }}
             >
               {colors.map((color) => (
                 <>
-                  <option value={color.colorName} key={color.colorID}>
+                  <option key={color.colorID} value={color.colorName}>
                     {color.colorName}
                   </option>
                 </>
@@ -63,7 +63,7 @@ const EditTagDialog: FC = () => {
         </DialogContent>
         <DialogActions>
           <Button variant="contained">キャンセル</Button>
-          <Button variant="contained" color="primary">
+          <Button color="primary" variant="contained">
             保存
           </Button>
         </DialogActions>

@@ -4,10 +4,15 @@
 
 import { getAll } from 'services/request_schedules';
 
-test('Firebaseからカレンダーに埋め込む用のデータも加えたSchedulesWithUserTagColorを取得する', async () => {
-  const data = await getAll(new Date());
+// TODO: Firebaseへのカレンダーに埋め込むデータのリクエストのテストをしっかり書く
+describe('Firebaseへの予定に関するリクエスト', () => {
+  it('Firebaseからカレンダーに埋め込む用のデータも加えたSchedulesWithUserTagColorを取得する', async () => {
+    expect.hasAssertions();
 
-  console.log(data);
+    const data = await getAll(new Date());
 
-  expect(data).toBeTruthy();
+    console.log(data);
+
+    expect(data).toBeTruthy();
+  });
 });

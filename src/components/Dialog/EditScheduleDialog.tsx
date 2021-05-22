@@ -42,13 +42,13 @@ const EditScheduleDialog: FC = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>予定の編集</DialogTitle>
         <DialogContent className={classes.dialogContent}>
-          <TextField label="予定" variant="outlined" size="small" />
+          <TextField label="予定" size="small" variant="outlined" />
           <DatePicker
-            label="日付"
             format="yyyy/MM/dd"
+            label="日付"
             openTo="year"
-            views={['year', 'month', 'date']}
             value={new Date()}
+            views={['year', 'month', 'date']}
             onChange={() => console.log(1)}
           />
           <TimePicker
@@ -61,13 +61,13 @@ const EditScheduleDialog: FC = () => {
               タグ
             </InputLabel>
             <NativeSelect
+              inputProps={{ name: 'tag', id: 'tag' }}
               value="aaa"
               onChange={() => console.log(1)}
-              inputProps={{ name: 'tag', id: 'tag' }}
             >
               {tags.map((tag) => (
                 <>
-                  <option value={tag.tagName} key={tag.tagID}>
+                  <option key={tag.tagID} value={tag.tagName}>
                     {tag.tagName}
                   </option>
                 </>
@@ -77,7 +77,7 @@ const EditScheduleDialog: FC = () => {
         </DialogContent>
         <DialogActions>
           <Button variant="contained">キャンセル</Button>
-          <Button variant="contained" color="primary">
+          <Button color="primary" variant="contained">
             保存
           </Button>
         </DialogActions>

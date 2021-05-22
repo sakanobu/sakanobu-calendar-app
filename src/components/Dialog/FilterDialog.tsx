@@ -22,8 +22,8 @@ const Container: FC<Props> = ({ open, handleClose }) => (
         {tags.map((tag) => (
           <>
             <FormControlLabel
-              label={tag.tagName}
               control={<Checkbox checked={tag.checked} />}
+              label={tag.tagName}
             />
           </>
         ))}

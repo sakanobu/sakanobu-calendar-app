@@ -18,7 +18,7 @@ const FilterButton: FC = React.memo(() => {
       <Button variant="contained" onClick={handleClickOpen}>
         フィルター
       </Button>
-      <FilterDialog open={open} handleClose={handleClose} />
+      <FilterDialog handleClose={handleClose} open={open} />
     </>
   );
 });

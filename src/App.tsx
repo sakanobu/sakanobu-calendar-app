@@ -41,7 +41,7 @@ const App: FC = () => {
 
   return (
     <>
-      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={jaLocale}>
+      <MuiPickersUtilsProvider locale={jaLocale} utils={DateFnsUtils}>
         <SelectedDateContext.Provider
           value={{ selectedDate, handleChangeSelectedDate }}
         >

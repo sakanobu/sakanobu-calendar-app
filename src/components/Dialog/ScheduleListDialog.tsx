@@ -52,19 +52,19 @@ const ScheduleListDialog: FC = () => {
         ◯月△日の全予定ダイアログのテスト
       </Button>
       <Dialog
-        open={open}
-        onClose={handleClose}
-        scroll="paper"
         fullWidth
         maxWidth="sm"
+        open={open}
+        scroll="paper"
+        onClose={handleClose}
       >
         <DialogTitle>◯月△日の全予定</DialogTitle>
-        <DialogContent className={classes.dialogContent} dividers>
+        <DialogContent dividers className={classes.dialogContent}>
           <DialogContentText ref={descriptionElementRef} tabIndex={-1}>
             <List>
               {schedules.map((schedule) => (
                 <>
-                  <ListItem divider button>
+                  <ListItem button divider>
                     <ListItemText>
                       {format(schedule.startTime, 'kk:mm')}
                     </ListItemText>

@@ -59,25 +59,25 @@ const Navigation: FC<Props> = ({ addSchedule, tagBoxes }) => {
     <AppBar position="static">
       <ToolBar className={classes.toolBar}>
         <Button
-          variant="contained"
           className={classes.button}
+          variant="contained"
           onClick={handleClickTodayButton}
         >
           今日
         </Button>
         <Button
-          variant="contained"
           className={classes.button}
           startIcon={<ChevronLeftIcon />}
+          variant="contained"
           onClick={handleClickLeftIcon}
         />
         <Button
-          variant="contained"
           className={classes.button}
           startIcon={<ChevronRightIcon />}
+          variant="contained"
           onClick={handleClickRightIcon}
         />
-        <Typography className={classes.dateToday} align="center">
+        <Typography align="center" className={classes.dateToday}>
           {`${format(selectedDate, 'yyyy')}年 ${format(selectedDate, 'MM')}月`}
         </Typography>
         <JumpButton />
