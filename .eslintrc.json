@@ -28,13 +28,11 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "airbnb-typescript",
-    "airbnb/hooks",
     "plugin:import/recommended",
     "plugin:import/typescript",
     "plugin:jsx-a11y/recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:jest/recommended",
+    "plugin:jest/all",
     "plugin:testing-library/react",
     "prettier"
   ],
@@ -106,6 +104,13 @@
       }
     ],
     "import/prefer-default-export": "off",
+    "jest/lowercase-name": "off",
+    "jest/prefer-expect-assertions": [
+      "warn",
+      {
+        "onlyFunctionsWithAsyncKeyword": true
+      }
+    ],
     "react/display-name": "off",
     "react/jsx-filename-extension": [
       "error",
@@ -124,9 +129,18 @@
         "explicitSpread": "ignore"
       }
     ],
+    "react/jsx-sort-props": [
+      "warn",
+      {
+        "callbacksLast": true,
+        "ignoreCase": true,
+        "shorthandFirst": true,
+        "reservedFirst": true
+      }
+    ],
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "error"
   },
   "overrides": [
     {
