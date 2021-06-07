@@ -37,6 +37,7 @@
     "prettier"
   ],
   "rules": {
+    "comma-dangle": "off",
     "lines-between-class-members": [
       "error",
       "always",
@@ -68,7 +69,18 @@
       }
     ],
     "sort-imports": "off",
-    "@typescript-eslint/explicit-function-return-type": "warn",
+    "@typescript-eslint/comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+      }
+    ],
+    // "@typescript-eslint/explicit-function-return-type": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
