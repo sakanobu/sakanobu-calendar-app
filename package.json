@@ -69,8 +69,5 @@
     "eslint-plugin-testing-library": "^4.5.0",
     "prettier": "^2.3.0",
     "typesync": "^0.8.0"
-  },
-  "prettier": {
-    "singleQuote": true
   }
 }
