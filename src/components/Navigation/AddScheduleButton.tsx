@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { VFC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import AddScheduleDialog from 'components/Dialog/AddScheduleDialog';
 import type { UseScheduleType } from 'hooks/useSchedules';
@@ -9,7 +9,7 @@ type Props = {
   tagBoxes: TagBox[];
 };
 
-const AddScheduleButton: FC<Props> = React.memo<Props>((props) => {
+const AddScheduleButton: VFC<Props> = React.memo<Props>((props) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

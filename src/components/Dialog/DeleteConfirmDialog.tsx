@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { VFC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 
-const DeleteConfirmDialog: FC = () => {
+const DeleteConfirmDialog: VFC = () => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

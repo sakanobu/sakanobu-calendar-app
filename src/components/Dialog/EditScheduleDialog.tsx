@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { VFC, useState } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,7 +21,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const EditScheduleDialog: FC = () => {
+const EditScheduleDialog: VFC = () => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);

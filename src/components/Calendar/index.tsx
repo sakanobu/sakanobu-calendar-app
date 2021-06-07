@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 import { addMonths, format } from 'date-fns';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -54,7 +54,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Calendar: FC<Props> = (props) => {
+const Calendar: VFC<Props> = (props) => {
   const classes = useStyles();
 
   const { selectedDate } = React.useContext(SelectedDateContext);

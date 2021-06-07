@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -18,7 +18,7 @@ export type Props = {
   handleClose: () => void;
 };
 
-const TagListDialog: FC<Props> = ({ open, handleClose }) => (
+const TagListDialog: VFC<Props> = ({ open, handleClose }) => (
   <Dialog fullWidth maxWidth="xs" open={open} onClose={handleClose}>
     <DialogTitle>
       タグの追加/編集/削除

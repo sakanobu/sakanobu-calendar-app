@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 import { addMonths, format, subMonths } from 'date-fns';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -35,7 +35,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Navigation: FC<Props> = ({ addSchedule, tagBoxes }) => {
+const Navigation: VFC<Props> = ({ addSchedule, tagBoxes }) => {
   const classes = useStyles();
 
   const { selectedDate, handleChangeSelectedDate } =

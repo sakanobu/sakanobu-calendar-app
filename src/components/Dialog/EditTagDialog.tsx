@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { VFC, useState } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -20,7 +20,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const EditTagDialog: FC = () => {
+const EditTagDialog: VFC = () => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);

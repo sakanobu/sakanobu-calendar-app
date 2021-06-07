@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import jaLocale from 'date-fns/locale/ja';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -16,7 +16,7 @@ import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 import { useSchedule } from 'hooks/useSchedules';
 import { useTags } from 'hooks/useTags';
 
-const App: FC = () => {
+const App: VFC = () => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const { schedules, addSchedule } = useSchedule(selectedDate);
   const { tagBoxes } = useTags();

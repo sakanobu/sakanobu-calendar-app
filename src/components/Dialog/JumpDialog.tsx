@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,7 +13,7 @@ type Props = {
   handleClose: () => Promise<void>;
 };
 
-const JumpDialog: FC<Props> = ({ open, handleClose }) => {
+const JumpDialog: VFC<Props> = ({ open, handleClose }) => {
   const { selectedDate, handleChangeSelectedDate } =
     React.useContext(SelectedDateContext);
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, VFC } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -31,7 +31,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const AddScheduleDialog: FC<Props> = React.memo<Props>((props) => {
+const AddScheduleDialog: VFC<Props> = React.memo<Props>((props) => {
   const classes = useStyles();
 
   const [inputValues, inputHandlers] = useAddSchedule();

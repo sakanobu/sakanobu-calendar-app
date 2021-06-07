@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -14,7 +14,7 @@ type Props = {
   handleClose: () => void;
 };
 
-const Container: FC<Props> = ({ open, handleClose }) => (
+const Container: VFC<Props> = ({ open, handleClose }) => (
   <Dialog open={open} onClose={handleClose}>
     <DialogTitle>表示したいタグを選択</DialogTitle>
     <DialogContent>

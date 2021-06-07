@@ -1,8 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { VFC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import AddTagDialog from 'components/Dialog/TagListDialog';
 
-const TagListButton: FC = React.memo(() => {
+const TagListButton: VFC = React.memo(() => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

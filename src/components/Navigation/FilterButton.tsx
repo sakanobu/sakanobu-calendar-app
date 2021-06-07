@@ -1,8 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { VFC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import FilterDialog from 'components/Dialog/FilterDialog';
 
-const FilterButton: FC = React.memo(() => {
+const FilterButton: VFC = React.memo(() => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

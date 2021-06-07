@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { VFC, useState } from 'react';
 import format from 'date-fns/format';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -20,7 +20,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const ScheduleListDialog: FC = () => {
+const ScheduleListDialog: VFC = () => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
