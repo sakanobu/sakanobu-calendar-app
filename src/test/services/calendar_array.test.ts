@@ -1,4 +1,4 @@
-import { createCalendarArray } from './calendar_array';
+import { createCalendarArray } from 'services/calendar_array';
 
 describe('createCalendarArray', () => {
   it('2021/03 calendar', () => {
