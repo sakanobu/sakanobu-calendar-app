@@ -64,7 +64,7 @@ const ScheduleListDialog: VFC = () => {
             <List>
               {schedules.map((schedule) => (
                 <>
-                  <ListItem button divider>
+                  <ListItem key={schedule.scheduleID} button divider>
                     <ListItemText>
                       {format(schedule.startTime, 'kk:mm')}
                     </ListItemText>
