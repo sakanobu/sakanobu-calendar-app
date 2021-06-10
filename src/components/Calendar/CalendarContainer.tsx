@@ -54,7 +54,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Calendar: VFC<Props> = (props) => {
+const CalendarContainer: VFC<Props> = ({ schedules }) => {
   const classes = useStyles();
 
   const { selectedDate } = React.useContext(SelectedDateContext);
@@ -93,19 +93,10 @@ const Calendar: VFC<Props> = (props) => {
   return (
     <div className={classes.calendarContainer}>
       <div className={classes.dayOfTheWeekContainer}>
-        {/* {['日', '月', '火', '水', '木', '金', '土'].map( */}
         {dayOfTheWeek.map((day: typeof dayOfTheWeek[number]) => (
           <div
             key={day}
-            // style={
-            //   day === '日'
-            //     ? { backgroundColor: '#FFAD90' }
-            //     : day === '土'
-            //     ? { backgroundColor: '#BAD3FF' }
-            //     : { backgroundColor: '#FFFFEE' }
-            // }
             className={classes.dayOfTheWeekItem}
-            // key={i}
             style={calendarBackgroundColor(day)}
           >
             <Typography align="center">{day}</Typography>
@@ -135,7 +126,7 @@ const Calendar: VFC<Props> = (props) => {
               </div>
               <div className={classes.scheduleItemContent}>
                 {firstDateCounter === 1
-                  ? props.schedules
+                  ? schedules
                       .filter(
                         (schedule) =>
                           schedule.startTime.toDate().getDate() ===
@@ -157,4 +148,4 @@ const Calendar: VFC<Props> = (props) => {
   );
 };
 
-export default Calendar;
+export default CalendarContainer;

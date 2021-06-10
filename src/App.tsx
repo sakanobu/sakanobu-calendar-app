@@ -3,8 +3,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import jaLocale from 'date-fns/locale/ja';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import Navigation from 'components/Navigation/index';
-import Calendar from 'components/Calendar/index';
+import Navigation from 'components/Navigation/Navigation';
+import CalendarContainer from 'components/Calendar/CalendarContainer';
 import AddTagDialog from 'components/Dialog/AddTagDialog';
 import DeleteConfirmDialog from 'components/Dialog/DeleteConfirmDialog';
 import EditScheduleDialog from 'components/Dialog/EditScheduleDialog';
@@ -20,13 +20,6 @@ const App: VFC = () => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const { schedules, addSchedule } = useSchedule(selectedDate);
   const { tagBoxes } = useTags();
-
-  // const handleChangeSelectedDate = (date: MaterialUiPickersDate): void => {
-  //   if (date === null) {
-  //     throw new Error('日付にnullが指定されました');
-  //   }
-  //   setSelectedDate(date);
-  // };
 
   const handleChangeSelectedDate = async (
     date: MaterialUiPickersDate
@@ -46,7 +39,7 @@ const App: VFC = () => {
           value={{ selectedDate, handleChangeSelectedDate }}
         >
           <Navigation addSchedule={addSchedule} tagBoxes={tagBoxes} />
-          <Calendar schedules={schedules} />
+          <CalendarContainer schedules={schedules} />
         </SelectedDateContext.Provider>
 
         <AddTagDialog />
