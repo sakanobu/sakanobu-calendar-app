@@ -4,7 +4,9 @@ import jaLocale from 'date-fns/locale/ja';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import Navigation from 'components/Navigation/Navigation';
-import CalendarContainer from 'components/Calendar/Calendar';
+import Calendar from 'components/Calendar/Calendar';
+import DayOfTheWeek from 'components/Calendar/DayOfTheWeek';
+import Schedule from 'components/Calendar/Schedule';
 import AddTagDialog from 'components/Dialog/AddTagDialog';
 import DeleteConfirmDialog from 'components/Dialog/DeleteConfirmDialog';
 import EditScheduleDialog from 'components/Dialog/EditScheduleDialog';
@@ -40,7 +42,10 @@ const App: VFC = () => {
           selectedDate={selectedDate}
           tagBoxes={tagBoxes}
         />
-        <CalendarContainer schedules={schedules} selectedDate={selectedDate} />
+        <Calendar>
+          <DayOfTheWeek />
+          <Schedule schedules={schedules} selectedDate={selectedDate} />
+        </Calendar>
 
         <AddTagDialog />
         <DeleteConfirmDialog />
