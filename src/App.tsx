@@ -4,7 +4,7 @@ import jaLocale from 'date-fns/locale/ja';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import Navigation from 'components/Navigation/Navigation';
-import CalendarContainer from 'components/Calendar/CalendarContainer';
+import CalendarContainer from 'components/Calendar/Calendar';
 import AddTagDialog from 'components/Dialog/AddTagDialog';
 import DeleteConfirmDialog from 'components/Dialog/DeleteConfirmDialog';
 import EditScheduleDialog from 'components/Dialog/EditScheduleDialog';

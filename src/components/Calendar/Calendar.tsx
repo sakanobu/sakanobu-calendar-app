@@ -54,7 +54,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const CalendarContainer: VFC<Props> = ({ schedules, selectedDate }) => {
+const Calendar: VFC<Props> = ({ schedules, selectedDate }) => {
   const classes = useStyles();
 
   const calendarArray = createCalendarArray(selectedDate);
@@ -146,4 +146,4 @@ const CalendarContainer: VFC<Props> = ({ schedules, selectedDate }) => {
   );
 };
 
-export default CalendarContainer;
+export default Calendar;
