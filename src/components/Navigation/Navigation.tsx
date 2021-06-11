@@ -7,6 +7,7 @@ import ToolBar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import JumpButton from 'components/Navigation/JumpButton';
 import FilterButton from 'components/Navigation/FilterButton';
 import AddTagButton from 'components/Navigation/TagListButton';
@@ -18,6 +19,8 @@ import type { TagBox } from 'hooks/useTags';
 type Props = {
   addSchedule: UseScheduleType['addSchedule'];
   tagBoxes: TagBox[];
+  selectedDate: Date;
+  handleChangeSelectedDate: (date: MaterialUiPickersDate) => Promise<Date>;
 };
 
 const useStyles = makeStyles(() =>
@@ -80,7 +83,10 @@ const Navigation: VFC<Props> = ({ addSchedule, tagBoxes }) => {
         <Typography align="center" className={classes.dateToday}>
           {`${format(selectedDate, 'yyyy')}年 ${format(selectedDate, 'MM')}月`}
         </Typography>
-        <JumpButton />
+        <JumpButton
+          handleChangeSelectedDate={handleChangeSelectedDate}
+          selectedDate={selectedDate}
+        />
         <FilterButton />
         <AddTagButton />
         <AddScheduleButton addSchedule={addSchedule} tagBoxes={tagBoxes} />

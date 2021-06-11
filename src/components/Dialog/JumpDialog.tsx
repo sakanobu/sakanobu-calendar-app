@@ -11,6 +11,8 @@ import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 type Props = {
   open: boolean;
   handleClose: () => Promise<void>;
+  selectedDate: Date;
+  handleChangeSelectedDate: (date: MaterialUiPickersDate) => Promise<Date>;
 };
 
 const JumpDialog: VFC<Props> = ({ open, handleClose }) => {

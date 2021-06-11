@@ -1,31 +1,40 @@
 import React, { VFC, useState } from 'react';
 import Button from '@material-ui/core/Button';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import JumpDialog from 'components/Dialog/JumpDialog';
 
-const JumpButton: VFC = React.memo(() => {
-  const [open, setOpen] = useState(false);
+type Props = {
+  selectedDate: Date;
+  handleChangeSelectedDate: (date: MaterialUiPickersDate) => Promise<Date>;
+};
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+const JumpButton: VFC<Props> = React.memo(
+  ({ handleChangeSelectedDate, selectedDate }) => {
+    const [open, setOpen] = useState(false);
 
-  // const handleClose = React.useCallback(() => {
-  //   setOpen(false);
-  // }, []);
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
 
-  const handleClose = React.useCallback(async (): Promise<void> => {
-    setOpen(false);
-  }, []);
+    const handleClose = React.useCallback(async (): Promise<void> => {
+      setOpen(false);
+    }, []);
 
-  return (
-    <>
-      <Button variant="contained" onClick={handleClickOpen}>
-        ジャンプ
-      </Button>
-      <JumpDialog handleClose={handleClose} open={open} />
-    </>
-  );
-});
+    return (
+      <>
+        <Button variant="contained" onClick={handleClickOpen}>
+          ジャンプ
+        </Button>
+        <JumpDialog
+          handleChangeSelectedDate={handleChangeSelectedDate}
+          handleClose={handleClose}
+          open={open}
+          selectedDate={selectedDate}
+        />
+      </>
+    );
+  }
+);
 
 JumpButton.displayName = 'JumpButton';
 

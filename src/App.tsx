@@ -38,8 +38,17 @@ const App: VFC = () => {
         <SelectedDateContext.Provider
           value={{ selectedDate, handleChangeSelectedDate }}
         >
-          <Navigation addSchedule={addSchedule} tagBoxes={tagBoxes} />
-          <CalendarContainer schedules={schedules} />
+          <Navigation
+            addSchedule={addSchedule}
+            handleChangeSelectedDate={handleChangeSelectedDate}
+            selectedDate={selectedDate}
+            tagBoxes={tagBoxes}
+          />
+          <CalendarContainer
+            handleChangeSelectedDate={handleChangeSelectedDate}
+            schedules={schedules}
+            selectedDate={selectedDate}
+          />
         </SelectedDateContext.Provider>
 
         <AddTagDialog />
