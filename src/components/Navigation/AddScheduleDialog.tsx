@@ -6,11 +6,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-import { DatePicker, TimePicker } from '@material-ui/pickers';
+import { TimePicker } from '@material-ui/pickers';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Button from '@material-ui/core/Button';
+import ScheduleDatePicker from 'components/Navigation/AddScheduleDialogParts/ScheduleDatePicker';
 import type { UseScheduleType } from 'hooks/useSchedules';
 import type { TagBox } from 'hooks/useTags';
 import { useAddSchedule } from 'hooks/useAddSchedule';
@@ -48,13 +49,6 @@ const AddScheduleDialog: VFC<Props> = React.memo<Props>(
     const handleScheduleTitle = React.useCallback(
       (event: ChangeEvent<HTMLInputElement>) => {
         inputHandlers.setScheduleTitle(event.target.value);
-      },
-      [inputHandlers]
-    );
-
-    const handleDateInput = React.useCallback(
-      (date) => {
-        inputHandlers.setSelectedDate(date);
       },
       [inputHandlers]
     );
@@ -121,13 +115,9 @@ const AddScheduleDialog: VFC<Props> = React.memo<Props>(
             variant="outlined"
             onChange={handleScheduleTitle}
           />
-          <DatePicker
-            format="yyyy/MM/dd"
-            label="日付"
-            openTo="year"
-            value={inputValues.selectedDate}
-            views={['year', 'month', 'date']}
-            onChange={handleDateInput}
+          <ScheduleDatePicker
+            selectedDate={inputValues.selectedDate}
+            setSelectedDate={inputHandlers.setSelectedDate}
           />
           <TimePicker
             label="開始時間"
