@@ -42,26 +42,26 @@ const useStyles = makeStyles(() =>
   })
 );
 
+const displayDate = (
+  selectedDay: CalendarArrayType[number],
+  _selectedDate: Date
+): string => {
+  if (selectedDay.day !== '1') {
+    return selectedDay.day;
+  }
+  if (selectedDay.selectedMonth === true) {
+    return `${format(_selectedDate, 'M')}月1日`;
+  }
+
+  return `${format(addMonths(_selectedDate, 1), 'M')}月1日`;
+};
+
 const Schedule: VFC<Props> = ({ schedules, selectedDate }) => {
   const classes = useStyles();
 
   const calendarArray = createCalendarArray(selectedDate);
 
   let firstDateCounter = 0;
-
-  const displayDate = (
-    selectedDay: CalendarArrayType[number],
-    _selectedDate: Date
-  ): string => {
-    if (selectedDay.day !== '1') {
-      return selectedDay.day;
-    }
-    if (selectedDay.selectedMonth === true) {
-      return `${format(_selectedDate, 'M')}月1日`;
-    }
-
-    return `${format(addMonths(_selectedDate, 1), 'M')}月1日`;
-  };
 
   return (
     <div className={classes.scheduleContainer}>
