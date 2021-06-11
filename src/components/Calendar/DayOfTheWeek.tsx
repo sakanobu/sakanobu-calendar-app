@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { memo, VFC } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
@@ -15,9 +15,11 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const DayOfTheWeek: VFC = () => {
+const DayOfTheWeek: VFC = memo(() => {
   const classes = useStyles();
+
   const dayOfTheWeek = ['日', '月', '火', '水', '木', '金', '土'] as const;
+
   const calendarBackgroundColor = (day: typeof dayOfTheWeek[number]) => {
     switch (day) {
       case '日':
@@ -42,6 +44,6 @@ const DayOfTheWeek: VFC = () => {
       ))}
     </div>
   );
-};
+});
 
 export default DayOfTheWeek;
