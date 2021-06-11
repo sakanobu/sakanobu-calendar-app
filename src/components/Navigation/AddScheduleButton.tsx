@@ -9,31 +9,33 @@ type Props = {
   tagBoxes: TagBox[];
 };
 
-const AddScheduleButton: VFC<Props> = React.memo<Props>((props) => {
-  const [open, setOpen] = useState(false);
+const AddScheduleButton: VFC<Props> = React.memo<Props>(
+  ({ addSchedule, tagBoxes }) => {
+    const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
 
-  const handleClose = React.useCallback(() => {
-    setOpen(false);
-  }, []);
+    const handleClose = React.useCallback(() => {
+      setOpen(false);
+    }, []);
 
-  return (
-    <>
-      <Button variant="contained" onClick={handleClickOpen}>
-        +予定
-      </Button>
-      <AddScheduleDialog
-        addSchedule={props.addSchedule}
-        handleClose={handleClose}
-        open={open}
-        tagBoxes={props.tagBoxes}
-      />
-    </>
-  );
-});
+    return (
+      <>
+        <Button variant="contained" onClick={handleClickOpen}>
+          +予定
+        </Button>
+        <AddScheduleDialog
+          addSchedule={addSchedule}
+          handleClose={handleClose}
+          open={open}
+          tagBoxes={tagBoxes}
+        />
+      </>
+    );
+  }
+);
 
 AddScheduleButton.displayName = 'AddScheduleButton';
 
