@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import firebase from 'firebase/app';
 
 type ObjectForDate = {
   year: number;
@@ -13,7 +12,7 @@ type ObjectForDate = {
 type InputValue = {
   scheduleTitle: string;
   selectedTagName: string | null;
-  selectedTagRef: firebase.firestore.DocumentReference | null;
+  selectedTagId: string | null;
   selectedDate: Date | null;
   selectedStartTime: Date | null;
   objectForDate: ObjectForDate;
@@ -22,9 +21,7 @@ type InputValue = {
 type InputHandler = {
   setScheduleTitle: Dispatch<SetStateAction<string>>;
   setSelectedTagName: Dispatch<SetStateAction<string | null>>;
-  setSelectedTagRef: Dispatch<
-    SetStateAction<firebase.firestore.DocumentReference<firebase.firestore.DocumentData> | null>
-  >;
+  setSelectedTagId: Dispatch<SetStateAction<string | null>>;
   setSelectedDate: Dispatch<SetStateAction<Date | null>>;
   setSelectedStartTime: Dispatch<SetStateAction<Date | null>>;
   setObjectForDate: Dispatch<SetStateAction<ObjectForDate>>;
@@ -37,8 +34,7 @@ export const useAddSchedule = (): UseAddSchedule => {
 
   const [selectedTagName, setSelectedTagName] = useState<string | null>(null);
 
-  const [selectedTagRef, setSelectedTagRef] =
-    useState<firebase.firestore.DocumentReference | null>(null);
+  const [selectedTagId, setSelectedTagId] = useState<string | null>(null);
 
   // TODO handle○○()のnew Date()って1回で良くないか?
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
@@ -76,7 +72,7 @@ export const useAddSchedule = (): UseAddSchedule => {
     {
       scheduleTitle,
       selectedTagName,
-      selectedTagRef,
+      selectedTagId,
       selectedDate,
       selectedStartTime,
       objectForDate,
@@ -84,7 +80,7 @@ export const useAddSchedule = (): UseAddSchedule => {
     {
       setScheduleTitle,
       setSelectedTagName,
-      setSelectedTagRef,
+      setSelectedTagId,
       setSelectedDate,
       setSelectedStartTime,
       setObjectForDate,

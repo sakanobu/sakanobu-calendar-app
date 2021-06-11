@@ -1,18 +1,18 @@
 import firebase from 'firebase/app';
 import { startOfMonth, endOfMonth } from 'date-fns';
-import { db } from '../firebase';
+import { db } from 'firebase/index';
 
-type Schedule = {
+export type Schedule = {
   title: string;
-  tagRef: firebase.firestore.DocumentReference;
+  tagId: string;
   startTime: firebase.firestore.Timestamp;
 };
 
 export type Tag = {
-  tagRef: firebase.firestore.DocumentReference;
+  tagId: string;
   name: string;
   checked: boolean;
-  colorRef: firebase.firestore.DocumentReference;
+  colorId: string;
 };
 
 export type Color = {
@@ -22,15 +22,14 @@ export type Color = {
 
 export type TagWithColor = {
   name: string;
-  tagRef: firebase.firestore.DocumentReference;
+  tagId: string;
   selectedColor: {
     name: string;
     theme: string;
   };
 };
 
-// TODO Userはもう不要
-export type ScheduleWithUserTagColor = {
+export type ScheduleWithTagAndColor = {
   title: string;
   startTime: firebase.firestore.Timestamp;
   selectedTag: TagWithColor;
@@ -38,7 +37,7 @@ export type ScheduleWithUserTagColor = {
 
 export const getAll = async (
   selectedDate: Date
-): Promise<ScheduleWithUserTagColor[]> => {
+): Promise<ScheduleWithTagAndColor[]> => {
   const schedulesQuerySnapshot = await db
     .collection('schedules')
     .where('startTime', '>=', startOfMonth(selectedDate))
@@ -47,21 +46,22 @@ export const getAll = async (
     .get();
 
   return Promise.all(
-    // TODO: 合ってるはずなんだけどESLintがエラー報告
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await schedulesQuerySnapshot.docs.map(async (doc) => {
       const schedule = doc.data() as Schedule;
 
-      const tag = (await schedule.tagRef.get()).data() as Tag;
+      const tagRef = db.collection('tags').doc(`${schedule.tagId}`);
+      const tag = (await tagRef.get()).data() as Tag;
 
-      const color = (await tag.colorRef.get()).data() as Color;
+      const colorRef = db.collection('colors').doc(`${tag.colorId}`);
+      const color = (await colorRef.get()).data() as Color;
 
       return {
         title: schedule.title,
         startTime: schedule.startTime,
         selectedTag: {
           name: tag.name,
-          tagRef: schedule.tagRef,
+          tagId: schedule.tagId,
           selectedColor: {
             ...color,
           },

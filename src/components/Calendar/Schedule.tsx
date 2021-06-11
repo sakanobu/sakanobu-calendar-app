@@ -6,10 +6,10 @@ import {
   CalendarArrayType,
   createCalendarArray,
 } from 'services/calendar_array';
-import type { ScheduleWithUserTagColor } from 'services/request_schedules';
+import type { ScheduleWithTagAndColor } from 'services/request_schedules';
 
 type Props = {
-  schedules: ScheduleWithUserTagColor[];
+  schedules: ScheduleWithTagAndColor[];
   selectedDate: Date;
 };
 

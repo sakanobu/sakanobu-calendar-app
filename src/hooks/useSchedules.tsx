@@ -1,25 +1,24 @@
 import React from 'react';
 import firebase from 'firebase/app';
 import { getUnixTime } from 'date-fns';
+import { db } from 'firebase/index';
+// import { db } from 'firebase';
 import {
   add,
   getAll,
+  Schedule,
   Color,
   Tag,
-  ScheduleWithUserTagColor,
+  ScheduleWithTagAndColor,
 } from 'services/request_schedules';
 
 export type UseScheduleType = {
-  schedules: ScheduleWithUserTagColor[];
-  addSchedule: (
-    title: string,
-    tagRef: firebase.firestore.DocumentReference,
-    startTime: Date
-  ) => Promise<void>;
+  schedules: ScheduleWithTagAndColor[];
+  addSchedule: (title: string, tagId: string, startTime: Date) => Promise<void>;
 };
 
 export const useSchedule = (selectedDate: Date): UseScheduleType => {
-  const [schedules, setSchedules] = React.useState<ScheduleWithUserTagColor[]>(
+  const [schedules, setSchedules] = React.useState<ScheduleWithTagAndColor[]>(
     []
   );
 
@@ -34,36 +33,33 @@ export const useSchedule = (selectedDate: Date): UseScheduleType => {
   }, [selectedDate]);
 
   const addSchedule = React.useCallback(
-    async (
-      title: string,
-      tagRef: firebase.firestore.DocumentReference,
-      startTime: Date
-    ): Promise<void> => {
-      const newSchedule = {
+    async (title: string, tagId: string, startTime: Date): Promise<void> => {
+      const newSchedule: Schedule = {
         title,
-        tagRef,
+        tagId,
         startTime: new firebase.firestore.Timestamp(getUnixTime(startTime), 0),
       };
 
-      const tag = (await newSchedule.tagRef.get()).data() as Tag;
+      const tagRef = db.collection('tags').doc(`${newSchedule.tagId}`);
+      const tag = (await tagRef.get()).data() as Tag;
 
-      // TODO あれ､固定値になってる???
-      const color = { name: 'red', theme: 'palette.error.dark' } as Color;
+      const colorRef = db.collection('colors').doc(`${tag.colorId}`);
+      const color = (await colorRef.get()).data() as Color;
 
       await add(newSchedule).then((addedSchedule) => {
-        const newScheduleWithUserTagColor: ScheduleWithUserTagColor = {
+        const newScheduleWithTagAndColor: ScheduleWithTagAndColor = {
           title: addedSchedule.title,
           startTime: addedSchedule.startTime,
           selectedTag: {
             name: tag.name,
-            tagRef: tag.tagRef,
+            tagId: newSchedule.tagId,
             selectedColor: {
               ...color,
             },
           },
         };
 
-        setSchedules([newScheduleWithUserTagColor].concat(schedules));
+        setSchedules([newScheduleWithTagAndColor].concat(schedules));
       });
 
       return new Promise((resolve) => {

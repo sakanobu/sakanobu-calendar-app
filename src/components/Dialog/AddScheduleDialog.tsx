@@ -41,7 +41,7 @@ const AddScheduleDialog: VFC<Props> = React.memo<Props>((props) => {
   const closeDialog = React.useCallback(() => {
     props.handleClose();
     inputHandlers.setSelectedTagName('必ず選択してください');
-    inputHandlers.setSelectedTagRef(null);
+    inputHandlers.setSelectedTagId(null);
   }, [props, inputHandlers]);
 
   const handleScheduleTitle = React.useCallback(
@@ -76,20 +76,20 @@ const AddScheduleDialog: VFC<Props> = React.memo<Props>((props) => {
       }
 
       inputHandlers.setSelectedTagName(selectedTagBox.tag.name);
-      inputHandlers.setSelectedTagRef(selectedTagBox.tag.tagRef);
+      inputHandlers.setSelectedTagId(selectedTagBox.tag.tagId);
     },
     [props.tagBoxes, inputHandlers]
   );
 
   const handleSubmit = React.useCallback(() => {
-    if (inputValues.selectedTagRef === null) {
+    if (inputValues.selectedTagId === null) {
       throw new Error();
     }
 
     props
       .addSchedule(
         inputValues.scheduleTitle,
-        inputValues.selectedTagRef,
+        inputValues.selectedTagId,
         new Date(
           inputValues.objectForDate.year,
           inputValues.objectForDate.month,
@@ -106,7 +106,7 @@ const AddScheduleDialog: VFC<Props> = React.memo<Props>((props) => {
     props.handleClose();
     inputHandlers.setScheduleTitle('');
     inputHandlers.setSelectedTagName('必ず選択してください');
-    inputHandlers.setSelectedTagRef(null);
+    inputHandlers.setSelectedTagId(null);
     inputHandlers.setSelectedDate(new Date());
     inputHandlers.setSelectedStartTime(new Date());
   }, [props, inputValues, inputHandlers]);
@@ -161,7 +161,7 @@ const AddScheduleDialog: VFC<Props> = React.memo<Props>((props) => {
         </Button>
         <Button
           color="primary"
-          disabled={!inputValues.scheduleTitle || !inputValues.selectedTagRef}
+          disabled={!inputValues.scheduleTitle || !inputValues.selectedTagId}
           variant="contained"
           onClick={handleSubmit}
         >
