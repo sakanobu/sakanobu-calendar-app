@@ -2,8 +2,6 @@ import React, { VFC } from 'react';
 import { addMonths, format } from 'date-fns';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 import type { ScheduleWithUserTagColor } from 'services/request_schedules';
 import {
   CalendarArrayType,
@@ -13,7 +11,6 @@ import {
 type Props = {
   schedules: ScheduleWithUserTagColor[];
   selectedDate: Date;
-  handleChangeSelectedDate: (date: MaterialUiPickersDate) => Promise<Date>;
 };
 
 const useStyles = makeStyles(() =>
@@ -57,10 +54,8 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const CalendarContainer: VFC<Props> = ({ schedules }) => {
+const CalendarContainer: VFC<Props> = ({ schedules, selectedDate }) => {
   const classes = useStyles();
-
-  const { selectedDate } = React.useContext(SelectedDateContext);
 
   const calendarArray = createCalendarArray(selectedDate);
 

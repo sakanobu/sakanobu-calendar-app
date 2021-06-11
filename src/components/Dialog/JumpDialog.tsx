@@ -6,7 +6,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { DatePicker } from '@material-ui/pickers';
-import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 
 type Props = {
   open: boolean;
@@ -15,10 +14,12 @@ type Props = {
   handleChangeSelectedDate: (date: MaterialUiPickersDate) => Promise<Date>;
 };
 
-const JumpDialog: VFC<Props> = ({ open, handleClose }) => {
-  const { selectedDate, handleChangeSelectedDate } =
-    React.useContext(SelectedDateContext);
-
+const JumpDialog: VFC<Props> = ({
+  open,
+  handleClose,
+  selectedDate,
+  handleChangeSelectedDate,
+}) => {
   const handleChange = async (date: MaterialUiPickersDate) => {
     await handleChangeSelectedDate(date);
     await handleClose();

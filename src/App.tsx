@@ -12,7 +12,6 @@ import EditTagDialog from 'components/Dialog/EditTagDialog';
 import ScheduleDetailDialog from 'components/Dialog/ScheduleDetailDialog';
 import ScheduleListDialog from 'components/Dialog/ScheduleListDialog';
 import UnsaveConfirmDialog from 'components/Dialog/UnsaveConfirmDialog';
-import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 import { useSchedule } from 'hooks/useSchedules';
 import { useTags } from 'hooks/useTags';
 
@@ -35,21 +34,13 @@ const App: VFC = () => {
   return (
     <>
       <MuiPickersUtilsProvider locale={jaLocale} utils={DateFnsUtils}>
-        <SelectedDateContext.Provider
-          value={{ selectedDate, handleChangeSelectedDate }}
-        >
-          <Navigation
-            addSchedule={addSchedule}
-            handleChangeSelectedDate={handleChangeSelectedDate}
-            selectedDate={selectedDate}
-            tagBoxes={tagBoxes}
-          />
-          <CalendarContainer
-            handleChangeSelectedDate={handleChangeSelectedDate}
-            schedules={schedules}
-            selectedDate={selectedDate}
-          />
-        </SelectedDateContext.Provider>
+        <Navigation
+          addSchedule={addSchedule}
+          handleChangeSelectedDate={handleChangeSelectedDate}
+          selectedDate={selectedDate}
+          tagBoxes={tagBoxes}
+        />
+        <CalendarContainer schedules={schedules} selectedDate={selectedDate} />
 
         <AddTagDialog />
         <DeleteConfirmDialog />

@@ -12,7 +12,6 @@ import JumpButton from 'components/Navigation/JumpButton';
 import FilterButton from 'components/Navigation/FilterButton';
 import AddTagButton from 'components/Navigation/TagListButton';
 import AddScheduleButton from 'components/Navigation/AddScheduleButton';
-import { SelectedDateContext } from 'hooks/useSelectedDateContext';
 import { UseScheduleType } from 'hooks/useSchedules';
 import type { TagBox } from 'hooks/useTags';
 
@@ -38,11 +37,13 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const Navigation: VFC<Props> = ({ addSchedule, tagBoxes }) => {
+const Navigation: VFC<Props> = ({
+  addSchedule,
+  tagBoxes,
+  selectedDate,
+  handleChangeSelectedDate,
+}) => {
   const classes = useStyles();
-
-  const { selectedDate, handleChangeSelectedDate } =
-    React.useContext(SelectedDateContext);
 
   const handleClickTodayButton = () => handleChangeSelectedDate(new Date());
 
