@@ -1,6 +1,6 @@
 import React, { VFC, useState } from 'react';
 import Button from '@material-ui/core/Button';
-import AddScheduleDialog from 'components/Dialog/AddScheduleDialog';
+import AddScheduleDialog from 'components/Navigation/AddScheduleDialog';
 import type { UseScheduleType } from 'hooks/useSchedules';
 import type { TagBox } from 'hooks/useTags';
 

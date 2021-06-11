@@ -1,7 +1,7 @@
 import React, { VFC, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import JumpDialog from 'components/Dialog/JumpDialog';
+import JumpDialog from 'components/Navigation/JumpDialog';
 
 type Props = {
   selectedDate: Date;
