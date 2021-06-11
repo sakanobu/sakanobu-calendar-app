@@ -7,6 +7,7 @@ import {
   CalendarArrayType,
   createCalendarArray,
 } from 'services/calendar_array';
+import DayOfTheWeek from 'components/Calendar/DayOfTheWeek';
 
 type Props = {
   schedules: ScheduleWithUserTagColor[];
@@ -18,14 +19,6 @@ const useStyles = makeStyles(() =>
     calendarContainer: {
       marginTop: 30,
       border: 'solid 1px #000000',
-    },
-    dayOfTheWeekContainer: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    dayOfTheWeekItem: {
-      width: 'calc(100% / 7 - 2px)',
-      borderRight: 'solid 1px #000000',
     },
     scheduleContainer: {
       display: 'flex',
@@ -61,8 +54,6 @@ const Calendar: VFC<Props> = ({ schedules, selectedDate }) => {
 
   let firstDateCounter = 0;
 
-  const dayOfTheWeek = ['日', '月', '火', '水', '木', '金', '土'] as const;
-
   const displayDate = (
     selectedDay: CalendarArrayType[number],
     _selectedDate: Date
@@ -77,30 +68,9 @@ const Calendar: VFC<Props> = ({ schedules, selectedDate }) => {
     return `${format(addMonths(_selectedDate, 1), 'M')}月1日`;
   };
 
-  const calendarBackgroundColor = (day: typeof dayOfTheWeek[number]) => {
-    switch (day) {
-      case '日':
-        return { backgroundColor: '#FFAD90' };
-      case '土':
-        return { backgroundColor: '#BAD3FF' };
-      default:
-        return { backgroundColor: '#FFFFEE' };
-    }
-  };
-
   return (
     <div className={classes.calendarContainer}>
-      <div className={classes.dayOfTheWeekContainer}>
-        {dayOfTheWeek.map((day: typeof dayOfTheWeek[number]) => (
-          <div
-            key={day}
-            className={classes.dayOfTheWeekItem}
-            style={calendarBackgroundColor(day)}
-          >
-            <Typography align="center">{day}</Typography>
-          </div>
-        ))}
-      </div>
+      <DayOfTheWeek />
 
       <div className={classes.scheduleContainer}>
         {calendarArray.map((selectedDay) => {
